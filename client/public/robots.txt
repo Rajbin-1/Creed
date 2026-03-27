@@ -1,0 +1,20 @@
+# Robots.txt for Creed Lifestyle Nepal
+# Allow all search engines to crawl the website
+
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /.well-known
+
+# Specific rules for Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Specific rules for Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://creed-lifestyle.manus.space/sitemap.xml

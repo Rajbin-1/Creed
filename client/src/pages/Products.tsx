@@ -1,7 +1,9 @@
 import { useLocation } from 'wouter';
 import { Button } from '@/components/ui/button';
-import { Zap, Droplet, Scissors, ShoppingBag, Instagram } from 'lucide-react';
-import { useState } from 'react';
+import { Zap, Droplet, Scissors, ShoppingBag, Instagram, Plus, Minus } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { toast } from 'sonner';
+import Navbar from '@/components/Navbar';
 
 /**
  * Products Page with Instagram Order System
@@ -30,6 +32,9 @@ export default function Products() {
   const [, navigate] = useLocation();
   const [username, setUsername] = useState('');
   const [location, setLocation] = useState('');
+  const [quantities, setQuantities] = useState<Record<number, number>>({});
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const locationRef = useRef<HTMLInputElement>(null);
 
   const products: Product[] = [
     {
@@ -79,6 +84,23 @@ export default function Products() {
   ];
 
   const handleInstagramOrder = (product: Product) => {
+    // Validate username
+    if (!username.trim()) {
+      toast.error('Please enter your Instagram username');
+      usernameRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      usernameRef.current?.focus();
+      return;
+    }
+
+    // Validate location
+    if (!location.trim()) {
+      toast.error('Please enter your location');
+      locationRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      locationRef.current?.focus();
+      return;
+    }
+
+    const quantity = quantities[product.id] || 1;
     const timestamp = new Date().toLocaleString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -88,14 +110,17 @@ export default function Products() {
       second: '2-digit',
     });
 
-    const userInfo = username || 'Customer';
-    const locationInfo = location || 'Location not specified';
+    const userInfo = username.trim();
+    const locationInfo = location.trim();
+    const totalPrice = product.priceNPR * quantity;
 
     const message = `Hi Creed Lifestyle! 🙋‍♂️
 
 I'd like to order:
 📦 Product: ${product.name}
-💰 Price: Rs. ${product.priceNPR}
+📊 Quantity: ${quantity}
+💰 Price per unit: Rs. ${product.priceNPR}
+💵 Total: Rs. ${totalPrice}
 📍 Location: ${locationInfo}
 👤 Username: ${userInfo}
 ⏰ Time: ${timestamp}
@@ -103,8 +128,10 @@ I'd like to order:
 Please confirm availability and delivery details. Thanks!`;
 
     // Copy message to clipboard for easy pasting
-    navigator.clipboard.writeText(message).catch(() => {
-      // Fallback if clipboard fails
+    navigator.clipboard.writeText(message).then(() => {
+      toast.success('Order message copied to clipboard!');
+    }).catch(() => {
+      toast.error('Failed to copy message');
     });
 
     // Redirect to Creed's Instagram account
@@ -113,61 +140,19 @@ Please confirm availability and delivery details. Thanks!`;
     window.open(instagramLink, '_blank');
   };
 
+  const updateQuantity = (productId: number, delta: number) => {
+    setQuantities(prev => {
+      const newQty = Math.max(1, (prev[productId] || 1) + delta);
+      return { ...prev, [productId]: newQty };
+    });
+  };
+
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
-      {/* Navigation - Fixed */}
-      <nav className="fixed top-0 left-0 right-0 z-40 bg-black/80 backdrop-blur-sm border-b border-red-600/30">
-        <div className="container flex items-center justify-between py-4">
-          <button
-            onClick={() => navigate('/')}
-            className="flex items-center gap-3 hover:opacity-80 transition-opacity"
-          >
-            <img
-              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663483354275/bXM8D6oMMGwALEvguBMTpw/creed-logo_d41f092c.jpg"
-              alt="Creed Lifestyle"
-              className="w-8 h-8 rounded-full"
-            />
-            <span className="font-bold text-sm tracking-widest uppercase hidden sm:inline">Creed</span>
-          </button>
-
-          {/* Navigation Links */}
-          <div className="flex items-center gap-4 sm:gap-8">
-            <button
-              onClick={() => navigate('/')}
-              className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors duration-200"
-            >
-              Home
-            </button>
-            <button
-              onClick={() => navigate('/products')}
-              className="text-xs font-bold uppercase tracking-widest text-red-600"
-            >
-              Products
-            </button>
-            <button
-              onClick={() => navigate('/about')}
-              className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors duration-200"
-            >
-              About
-            </button>
-            <button
-              onClick={() => navigate('/reviews')}
-              className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors duration-200"
-            >
-              Reviews
-            </button>
-            <button
-              onClick={() => navigate('/contact')}
-              className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors duration-200"
-            >
-              Contact
-            </button>
-          </div>
-        </div>
-      </nav>
+      <Navbar currentPage="/products" />
 
       {/* Page Header */}
-      <section className="relative pt-32 pb-16 sm:pb-20 lg:pb-24 bg-black border-b border-red-600/30">
+      <section className="relative pt-20 sm:pt-32 pb-12 sm:pb-16 lg:pb-20 bg-black border-b border-red-600/30">
         <div className="container px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center space-y-4">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight tracking-tight">
@@ -181,7 +166,7 @@ Please confirm availability and delivery details. Thanks!`;
       </section>
 
       {/* Order Information Section */}
-      <section className="relative py-12 sm:py-16 bg-black border-b border-red-600/30">
+      <section className="relative py-8 sm:py-12 lg:py-16 bg-black border-b border-red-600/30">
         <div className="container px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto">
             <div className="space-y-6">
@@ -191,6 +176,7 @@ Please confirm availability and delivery details. Thanks!`;
                   Your Instagram Username
                 </label>
                 <input
+                  ref={usernameRef}
                   type="text"
                   placeholder="@yourusername"
                   value={username}
@@ -208,6 +194,7 @@ Please confirm availability and delivery details. Thanks!`;
                   Your Location (City/Area)
                 </label>
                 <input
+                  ref={locationRef}
                   type="text"
                   placeholder="e.g., Kathmandu, Pokhara"
                   value={location}
@@ -231,7 +218,7 @@ Please confirm availability and delivery details. Thanks!`;
       </section>
 
       {/* Products Grid */}
-      <section className="relative py-20 sm:py-24 lg:py-32 bg-black">
+      <section className="relative py-12 sm:py-20 lg:py-28 bg-black">
         <div className="container px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
             {products.map((product) => {
@@ -245,7 +232,8 @@ Please confirm availability and delivery details. Thanks!`;
                   <div className="relative w-full h-64 sm:h-80 overflow-hidden bg-black/50">
                     <img
                       src={product.image}
-                      alt={product.name}
+                      alt={`${product.name} - ${product.feature} - Creed Lifestyle Nepal`}
+                      title={product.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-300"></div>
@@ -254,8 +242,8 @@ Please confirm availability and delivery details. Thanks!`;
                   {/* Product Info */}
                   <div className="relative z-10 space-y-6 p-6 sm:p-8">
                     <div className="flex items-center justify-between">
-                      <div className="w-10 h-10 bg-red-600/20 flex items-center justify-center group-hover:bg-red-600 transition-colors duration-300">
-                        <Icon className="w-5 h-5 text-red-600 group-hover:text-white" />
+                      <div className="w-10 h-10 bg-red-600/20 flex items-center justify-center group-hover:bg-red-600 transition-colors duration-300" title="Product Category">
+                        <Icon className="w-5 h-5 text-red-600 group-hover:text-white" aria-label={product.feature} />
                       </div>
                       <span className="text-xs font-bold text-red-600/70 uppercase tracking-widest">Premium</span>
                     </div>
@@ -270,6 +258,28 @@ Please confirm availability and delivery details. Thanks!`;
 
                     <div className="flex items-center justify-between pt-6 border-t border-red-600/20">
                       <span className="text-xl sm:text-2xl font-bold text-red-600">{product.price}</span>
+                    </div>
+
+                    {/* Quantity Selector */}
+                    <div className="flex items-center gap-3 pt-4 border-t border-red-600/30">
+                      <span className="text-xs text-gray-400 uppercase tracking-widest">Qty:</span>
+                      <button
+                        onClick={() => updateQuantity(product.id, -1)}
+                        className="w-8 h-8 flex items-center justify-center border border-red-600/30 hover:border-red-600 hover:bg-red-600/10 transition-colors duration-200 rounded-sm"
+                        aria-label="Decrease quantity"
+                      >
+                        <Minus size={14} className="text-red-600" />
+                      </button>
+                      <span className="w-8 text-center font-bold text-red-600">
+                        {quantities[product.id] || 1}
+                      </span>
+                      <button
+                        onClick={() => updateQuantity(product.id, 1)}
+                        className="w-8 h-8 flex items-center justify-center border border-red-600/30 hover:border-red-600 hover:bg-red-600/10 transition-colors duration-200 rounded-sm"
+                        aria-label="Increase quantity"
+                      >
+                        <Plus size={14} className="text-red-600" />
+                      </button>
                     </div>
 
                     {/* Order Buttons */}
@@ -301,11 +311,11 @@ Please confirm availability and delivery details. Thanks!`;
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-red-600/30 bg-black py-12 sm:py-16">
+      <footer className="border-t border-red-600/30 bg-black py-8 sm:py-12 lg:py-16">
         <div className="container px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12 mb-8 sm:mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
             <div>
-              <div className="flex items-center gap-2 mb-4">
+              <div className="flex items-center gap-2 mb-3">
                 <img
                   src="https://d2xsxph8kpxj0f.cloudfront.net/310519663483354275/bXM8D6oMMGwALEvguBMTpw/creed-logo_d41f092c.jpg"
                   alt="Creed"
@@ -313,13 +323,13 @@ Please confirm availability and delivery details. Thanks!`;
                 />
                 <h3 className="font-bold text-sm uppercase tracking-widest">Creed Lifestyle</h3>
               </div>
-              <p className="text-gray-400 text-xs leading-relaxed">
+              <p className="text-gray-400 text-xs leading-relaxed text-sm">
                 Premium men's grooming for the modern man.
               </p>
             </div>
             <div>
-              <h4 className="font-bold mb-4 text-xs uppercase tracking-widest">Quick Links</h4>
-              <ul className="space-y-2 text-xs text-gray-400">
+              <h4 className="font-bold mb-3 text-xs uppercase tracking-widest">Quick Links</h4>
+              <ul className="space-y-1.5 text-xs text-gray-400">
                 <li>
                   <button onClick={() => navigate('/')} className="hover:text-red-600 transition-colors duration-300">
                     Home
@@ -338,8 +348,8 @@ Please confirm availability and delivery details. Thanks!`;
               </ul>
             </div>
             <div>
-              <h4 className="font-bold mb-4 text-xs uppercase tracking-widest">Follow Us</h4>
-              <div className="flex gap-4">
+              <h4 className="font-bold mb-3 text-xs uppercase tracking-widest">Follow Us</h4>
+              <div className="flex gap-3">
                 <a href="https://www.instagram.com/thecreedlifestyle/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-600 transition-colors duration-300 text-xs">
                   Instagram
                 </a>
@@ -350,7 +360,7 @@ Please confirm availability and delivery details. Thanks!`;
             </div>
           </div>
 
-          <div className="border-t border-red-600/20 pt-8 sm:pt-12 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-4">
+          <div className="border-t border-red-600/20 pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-4">
             <p>&copy; 2026 Creed Lifestyle Nepal. All rights reserved.</p>
             <p>Built for Men Who Move Different</p>
           </div>

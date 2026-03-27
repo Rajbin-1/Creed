@@ -1,5 +1,6 @@
 import { useLocation } from 'wouter';
 import { Star } from 'lucide-react';
+import Navbar from '@/components/Navbar';
 
 interface Review {
   id: number;
@@ -66,59 +67,10 @@ export default function Reviews() {
 
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
-      {/* Navigation - Fixed */}
-      <nav className="fixed top-0 left-0 right-0 z-40 bg-black/80 backdrop-blur-sm border-b border-red-600/30">
-        <div className="container flex items-center justify-between py-4">
-          <button
-            onClick={() => navigate('/')}
-            className="flex items-center gap-3 hover:opacity-80 transition-opacity"
-          >
-            <img
-              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663483354275/bXM8D6oMMGwALEvguBMTpw/creed-logo_d41f092c.jpg"
-              alt="Creed Lifestyle"
-              className="w-8 h-8 rounded-full"
-            />
-            <span className="font-bold text-sm tracking-widest uppercase hidden sm:inline">Creed</span>
-          </button>
-
-          {/* Navigation Links */}
-          <div className="flex items-center gap-4 sm:gap-8">
-            <button
-              onClick={() => navigate('/')}
-              className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors duration-200"
-            >
-              Home
-            </button>
-            <button
-              onClick={() => navigate('/products')}
-              className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors duration-200"
-            >
-              Products
-            </button>
-            <button
-              onClick={() => navigate('/about')}
-              className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors duration-200"
-            >
-              About
-            </button>
-            <button
-              onClick={() => navigate('/reviews')}
-              className="text-xs font-bold uppercase tracking-widest text-red-600"
-            >
-              Reviews
-            </button>
-            <button
-              onClick={() => navigate('/contact')}
-              className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors duration-200"
-            >
-              Contact
-            </button>
-          </div>
-        </div>
-      </nav>
+      <Navbar currentPage="/reviews" />
 
       {/* Page Header */}
-      <section className="relative pt-32 pb-16 sm:pb-20 lg:pb-24 bg-black border-b border-red-600/30">
+      <section className="relative pt-20 sm:pt-32 pb-12 sm:pb-16 lg:pb-20 bg-black border-b border-red-600/30">
         <div className="container px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center space-y-4">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight tracking-tight">
@@ -132,7 +84,7 @@ export default function Reviews() {
       </section>
 
       {/* Reviews Grid */}
-      <section className="relative py-20 sm:py-24 lg:py-32 bg-black">
+      <section className="relative py-12 sm:py-20 lg:py-28 bg-black">
         <div className="container px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {reviews.map((review) => (
@@ -167,7 +119,7 @@ export default function Reviews() {
       </section>
 
       {/* Call to Action */}
-      <section className="relative py-16 sm:py-20 lg:py-24 bg-black border-t border-red-600/30">
+      <section className="relative py-12 sm:py-16 lg:py-20 bg-black border-t border-red-600/30">
         <div className="container px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto text-center space-y-6">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight tracking-tight">
@@ -187,11 +139,11 @@ export default function Reviews() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-red-600/30 bg-black py-12 sm:py-16">
+      <footer className="border-t border-red-600/30 bg-black py-8 sm:py-12 lg:py-16">
         <div className="container px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12 mb-8 sm:mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
             <div>
-              <div className="flex items-center gap-2 mb-4">
+              <div className="flex items-center gap-2 mb-3">
                 <img
                   src="https://d2xsxph8kpxj0f.cloudfront.net/310519663483354275/bXM8D6oMMGwALEvguBMTpw/creed-logo_d41f092c.jpg"
                   alt="Creed"
@@ -204,8 +156,8 @@ export default function Reviews() {
               </p>
             </div>
             <div>
-              <h4 className="font-bold mb-4 text-xs uppercase tracking-widest">Quick Links</h4>
-              <ul className="space-y-2 text-xs text-gray-400">
+              <h4 className="font-bold mb-3 text-xs uppercase tracking-widest">Quick Links</h4>
+              <ul className="space-y-1.5 text-xs text-gray-400">
                 <li>
                   <button onClick={() => navigate('/')} className="hover:text-red-600 transition-colors duration-300">
                     Home
@@ -224,8 +176,8 @@ export default function Reviews() {
               </ul>
             </div>
             <div>
-              <h4 className="font-bold mb-4 text-xs uppercase tracking-widest">Follow Us</h4>
-              <div className="flex gap-4">
+              <h4 className="font-bold mb-3 text-xs uppercase tracking-widest">Follow Us</h4>
+              <div className="flex gap-3">
                 <a href="https://www.instagram.com/thecreedlifestyle/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-600 transition-colors duration-300 text-xs">
                   Instagram
                 </a>
@@ -236,7 +188,7 @@ export default function Reviews() {
             </div>
           </div>
 
-          <div className="border-t border-red-600/20 pt-8 sm:pt-12 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-4">
+          <div className="border-t border-red-600/20 pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-4">
             <p>&copy; 2026 Creed Lifestyle Nepal. All rights reserved.</p>
             <p>Built for Men Who Move Different</p>
           </div>
