@@ -5,12 +5,13 @@ import { useState } from 'react';
 
 /**
  * Products Page with Instagram Order System
- * Pre-filled messages with product details, price, timestamp, and username
+ * Pre-filled messages with product details, price, timestamp, username, and location
  * 
  * UX IMPROVEMENTS:
- * - Instagram button now redirects to proper DM draft (not just profile)
- * - Message is copied to clipboard for easy pasting
- * - Proper Instagram DM URL format: instagram.com/direct/t/{user_id}
+ * - Clarified that users need to send the message themselves
+ * - Instagram button redirects to Creed's account with message copied to clipboard
+ * - Added location field for better order tracking
+ * - Message includes: product, price, time, username, and location
  */
 
 interface Product {
@@ -28,6 +29,7 @@ interface Product {
 export default function Products() {
   const [, navigate] = useLocation();
   const [username, setUsername] = useState('');
+  const [location, setLocation] = useState('');
 
   const products: Product[] = [
     {
@@ -87,14 +89,16 @@ export default function Products() {
     });
 
     const userInfo = username || 'Customer';
+    const locationInfo = location || 'Location not specified';
 
     const message = `Hi Creed Lifestyle! 🙋‍♂️
 
 I'd like to order:
 📦 Product: ${product.name}
 💰 Price: Rs. ${product.priceNPR}
-⏰ Time: ${timestamp}
+📍 Location: ${locationInfo}
 👤 Username: ${userInfo}
+⏰ Time: ${timestamp}
 
 Please confirm availability and delivery details. Thanks!`;
 
@@ -103,11 +107,10 @@ Please confirm availability and delivery details. Thanks!`;
       // Fallback if clipboard fails
     });
 
-    // Proper Instagram DM link - redirects to message draft with @thecreedlifestyle
-    // This opens the DM inbox with the proper account
-    const instagramDMLink = 'https://www.instagram.com/direct/t/thecreedlifestyle/';
+    // Redirect to Creed's Instagram account
+    const instagramLink = 'https://www.instagram.com/thecreedlifestyle/';
     
-    window.open(instagramDMLink, '_blank');
+    window.open(instagramLink, '_blank');
   };
 
   return (
@@ -129,6 +132,12 @@ Please confirm availability and delivery details. Thanks!`;
 
           {/* Navigation Links */}
           <div className="flex items-center gap-4 sm:gap-8">
+            <button
+              onClick={() => navigate('/')}
+              className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors duration-200"
+            >
+              Home
+            </button>
             <button
               onClick={() => navigate('/products')}
               className="text-xs font-bold uppercase tracking-widest text-red-600"
@@ -171,24 +180,51 @@ Please confirm availability and delivery details. Thanks!`;
         </div>
       </section>
 
-      {/* Username Input Section */}
+      {/* Order Information Section */}
       <section className="relative py-12 sm:py-16 bg-black border-b border-red-600/30">
         <div className="container px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto">
-            <div className="space-y-4">
-              <label className="text-xs font-bold uppercase tracking-widest text-gray-300">
-                Enter Your Instagram Username (for order tracking)
-              </label>
-              <input
-                type="text"
-                placeholder="@yourusername"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="w-full px-4 py-3 bg-black border border-red-600/30 text-white placeholder-gray-500 focus:border-red-600 focus:outline-none transition-colors duration-200"
-              />
-              <p className="text-xs text-gray-400">
-                This will be included in your order message to Creed Lifestyle for better tracking.
-              </p>
+            <div className="space-y-6">
+              {/* Username Input */}
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase tracking-widest text-gray-300">
+                  Your Instagram Username
+                </label>
+                <input
+                  type="text"
+                  placeholder="@yourusername"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="w-full px-4 py-3 bg-black border border-red-600/30 text-white placeholder-gray-500 focus:border-red-600 focus:outline-none transition-colors duration-200"
+                />
+                <p className="text-xs text-gray-400">
+                  This will be included in your order message for tracking.
+                </p>
+              </div>
+
+              {/* Location Input */}
+              <div className="space-y-2">
+                <label className="text-xs font-bold uppercase tracking-widest text-gray-300">
+                  Your Location (City/Area)
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g., Kathmandu, Pokhara"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  className="w-full px-4 py-3 bg-black border border-red-600/30 text-white placeholder-gray-500 focus:border-red-600 focus:outline-none transition-colors duration-200"
+                />
+                <p className="text-xs text-gray-400">
+                  General location for delivery coordination.
+                </p>
+              </div>
+
+              {/* Clarification Note */}
+              <div className="p-4 border border-red-600/30 bg-red-600/5 rounded-sm">
+                <p className="text-xs text-gray-300 leading-relaxed">
+                  <span className="font-bold text-red-600">How to Order via Instagram:</span> Click the button below to visit Creed's Instagram. Your order message will be copied to your clipboard. Open their DMs and paste the message to send your order request.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -243,7 +279,7 @@ Please confirm availability and delivery details. Thanks!`;
                         className="w-full inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white rounded-sm transition-all duration-300 text-xs font-bold uppercase tracking-wider active:scale-95 px-4 py-3"
                       >
                         <Instagram size={14} />
-                        Order via Instagram
+                        Message on Instagram
                       </button>
 
                       <a

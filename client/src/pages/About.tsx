@@ -23,6 +23,12 @@ export default function About() {
           {/* Navigation Links */}
           <div className="flex items-center gap-4 sm:gap-8">
             <button
+              onClick={() => navigate('/')}
+              className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors duration-200"
+            >
+              Home
+            </button>
+            <button
               onClick={() => navigate('/products')}
               className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors duration-200"
             >

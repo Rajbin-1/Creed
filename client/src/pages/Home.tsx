@@ -199,6 +199,12 @@ export default function Home() {
           {/* Navigation Links */}
           <div className="flex items-center gap-4 sm:gap-8">
             <button
+              onClick={() => navigate('/')}
+              className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors duration-200"
+            >
+              Home
+            </button>
+            <button
               onClick={() => navigate('/products')}
               className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors duration-200"
             >
@@ -238,7 +244,7 @@ export default function Home() {
             loop
             playsInline
           >
-            <source src="https://d2xsxph8kpxj0f.cloudfront.net/310519663483354275/bXM8D6oMMGwALEvguBMTpw/creed-landing_4c5d5446.mp4" type="video/mp4" />
+            <source src="https://d2xsxph8kpxj0f.cloudfront.net/310519663483354275/bXM8D6oMMGwALEvguBMTpw/lv_0_20260327145918_bb54f8c9.mp4" type="video/mp4" />
           </video>
           {/* Dark overlay */}
           <div className="absolute inset-0 bg-black/40"></div>
