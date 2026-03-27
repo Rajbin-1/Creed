@@ -1,9 +1,7 @@
-import { useLocation } from 'wouter';
+import { Link } from 'wouter';
 import Navbar from '@/components/Navbar';
 
 export default function About() {
-  const [, navigate] = useLocation();
-
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
       <Navbar currentPage="/about" />
@@ -102,7 +100,7 @@ export default function About() {
                   </div>
                 </div>
 
-                <div className="p-6 border border-red-600/30 hover:border-red-600 transition-colors duration-300">
+                <div className="p-6 border border-red-600/30 hover:border-red-600 transition-colors duration-300 bg-black/50">
                   <h4 className="font-bold text-sm text-red-600 uppercase tracking-widest mb-3">Our Mission</h4>
                   <p className="text-xs text-gray-400 leading-relaxed">
                     We believe in the power of precision grooming. Every product is engineered for the man who refuses to compromise on quality.
@@ -124,12 +122,11 @@ export default function About() {
             <p className="text-xs sm:text-sm text-gray-300 uppercase tracking-wide">
               Explore our premium collection and experience the difference quality makes.
             </p>
-            <button
-              onClick={() => navigate('/products')}
-              className="inline-flex items-center justify-center bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-3 text-xs uppercase tracking-widest rounded-sm transition-colors duration-200 active:scale-95"
-            >
-              Shop Now
-            </button>
+            <Link href="/products">
+              <a className="inline-flex items-center justify-center bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-3 text-xs uppercase tracking-widest rounded-sm transition-colors duration-200 active:scale-95">
+                Shop Now
+              </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -142,7 +139,7 @@ export default function About() {
               <div className="flex items-center gap-2 mb-3">
                 <img
                   src="https://d2xsxph8kpxj0f.cloudfront.net/310519663483354275/bXM8D6oMMGwALEvguBMTpw/creed-logo_d41f092c.jpg"
-                  alt="Creed"
+                  alt="Creed Lifestyle Nepal logo in footer"
                   className="w-6 h-6 rounded-full"
                 />
                 <h3 className="font-bold text-sm uppercase tracking-widest">Creed Lifestyle</h3>
@@ -154,27 +151,15 @@ export default function About() {
             <div>
               <h4 className="font-bold mb-3 text-xs uppercase tracking-widest">Quick Links</h4>
               <ul className="space-y-1.5 text-xs text-gray-400">
-                <li>
-                  <button onClick={() => navigate('/')} className="hover:text-red-600 transition-colors duration-300">
-                    Home
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => navigate('/products')} className="hover:text-red-600 transition-colors duration-300">
-                    Products
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => navigate('/reviews')} className="hover:text-red-600 transition-colors duration-300">
-                    Reviews
-                  </button>
-                </li>
+                <li><Link href="/"><a className="hover:text-red-600 transition-colors duration-300">Home</a></Link></li>
+                <li><Link href="/products"><a className="hover:text-red-600 transition-colors duration-300">Products</a></Link></li>
+                <li><Link href="/reviews"><a className="hover:text-red-600 transition-colors duration-300">Reviews</a></Link></li>
               </ul>
             </div>
             <div>
               <h4 className="font-bold mb-3 text-xs uppercase tracking-widest">Follow Us</h4>
               <div className="flex gap-3">
-                <a href="https://www.instagram.com/thecreedlifestyle/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-600 transition-colors duration-300 text-xs">
+                <a href="https://www.instagram.com/creedlifestyle.np/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-600 transition-colors duration-300 text-xs">
                   Instagram
                 </a>
                 <a href="https://www.tiktok.com/@creed.lifestyle" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-600 transition-colors duration-300 text-xs">

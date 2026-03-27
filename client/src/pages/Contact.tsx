@@ -1,9 +1,8 @@
-import { useLocation } from 'wouter';
-import { Instagram, Facebook, Mail } from 'lucide-react';
+import { Link } from 'wouter';
+import { Instagram, Facebook, MessageSquare, Phone } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 
 export default function Contact() {
-  const [, navigate] = useLocation();
 
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
@@ -42,7 +41,7 @@ export default function Contact() {
                 <div className="space-y-4 lg:space-y-6">
                   {/* Instagram */}
                   <a
-                    href="https://www.instagram.com/thecreedlifestyle/"
+                    href="https://www.instagram.com/creedlifestyle.np/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex gap-4 p-6 border border-red-600/30 hover:border-red-600 transition-all duration-300 hover:shadow-lg hover:shadow-red-600/10"
@@ -52,25 +51,25 @@ export default function Contact() {
                     </div>
                     <div>
                       <h4 className="font-bold text-sm uppercase tracking-widest text-red-600">Instagram</h4>
-                      <p className="text-xs text-gray-400 mt-1">@thecreedlifestyle</p>
-                      <p className="text-xs text-gray-500 mt-2">5.2K+ followers • Daily grooming tips & product updates</p>
+                      <p className="text-xs text-gray-400 mt-1">@creedlifestyle.np</p>
+                      <p className="text-xs text-gray-500 mt-2">Daily grooming tips & product updates</p>
                     </div>
                   </a>
 
-                  {/* TikTok */}
+                  {/* WhatsApp */}
                   <a
-                    href="https://www.tiktok.com/@creed.lifestyle"
+                    href="https://wa.me/9779800000000" // Placeholder
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex gap-4 p-6 border border-red-600/30 hover:border-red-600 transition-all duration-300 hover:shadow-lg hover:shadow-red-600/10"
                   >
                     <div className="w-12 h-12 bg-red-600/20 flex items-center justify-center flex-shrink-0">
-                      <Mail className="w-6 h-6 text-red-600" />
+                      <Phone className="w-6 h-6 text-red-600" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-sm uppercase tracking-widest text-red-600">TikTok</h4>
-                      <p className="text-xs text-gray-400 mt-1">@creed.lifestyle</p>
-                      <p className="text-xs text-gray-500 mt-2">10K+ followers • Trending grooming content</p>
+                      <h4 className="font-bold text-sm uppercase tracking-widest text-red-600">WhatsApp</h4>
+                      <p className="text-xs text-gray-400 mt-1">Direct Message</p>
+                      <p className="text-xs text-gray-500 mt-2">Quick customer support for orders and inquiries</p>
                     </div>
                   </a>
 
@@ -87,7 +86,7 @@ export default function Contact() {
                     <div>
                       <h4 className="font-bold text-sm uppercase tracking-widest text-red-600">Facebook</h4>
                       <p className="text-xs text-gray-400 mt-1">Creed Lifestyle Nepal</p>
-                      <p className="text-xs text-gray-500 mt-2">1.2K+ community • Updates & announcements</p>
+                      <p className="text-xs text-gray-500 mt-2">Community updates & announcements</p>
                     </div>
                   </a>
                 </div>
@@ -128,20 +127,12 @@ export default function Contact() {
                       <p className="text-xs text-gray-400 mt-2">We value your opinion and love hearing how we can improve your experience.</p>
                     </div>
                   </div>
-
-                  <div className="flex gap-4">
-                    <div className="w-1 bg-red-600"></div>
-                    <div>
-                      <h4 className="font-bold text-sm text-red-600 uppercase tracking-widest">Partnerships</h4>
-                      <p className="text-xs text-gray-400 mt-2">Interested in collaborating? Let's discuss opportunities together.</p>
-                    </div>
-                  </div>
                 </div>
 
                 <div className="p-6 border border-red-600/30 hover:border-red-600 transition-colors duration-300 bg-black/50">
                   <h4 className="font-bold text-sm text-red-600 uppercase tracking-widest mb-3">Response Time</h4>
                   <p className="text-xs text-gray-400 leading-relaxed">
-                    We typically respond to messages within 24 hours. For urgent matters, please reach out via Instagram DM for faster assistance.
+                    We typically respond to messages within 24 hours. For urgent matters, please reach out via Instagram DM or WhatsApp for faster assistance.
                   </p>
                 </div>
               </div>
@@ -160,12 +151,11 @@ export default function Contact() {
             <p className="text-xs sm:text-sm text-gray-300 uppercase tracking-wide">
               Browse our collection and place your order today.
             </p>
-            <button
-              onClick={() => navigate('/products')}
-              className="inline-flex items-center justify-center bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-3 text-xs uppercase tracking-widest rounded-sm transition-colors duration-200 active:scale-95"
-            >
-              Shop Now
-            </button>
+            <Link href="/products">
+              <a className="inline-flex items-center justify-center bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-3 text-xs uppercase tracking-widest rounded-sm transition-colors duration-200 active:scale-95">
+                Shop Now
+              </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -178,7 +168,7 @@ export default function Contact() {
               <div className="flex items-center gap-2 mb-3">
                 <img
                   src="https://d2xsxph8kpxj0f.cloudfront.net/310519663483354275/bXM8D6oMMGwALEvguBMTpw/creed-logo_d41f092c.jpg"
-                  alt="Creed"
+                  alt="Creed Lifestyle Nepal logo in footer"
                   className="w-6 h-6 rounded-full"
                 />
                 <h3 className="font-bold text-sm uppercase tracking-widest">Creed Lifestyle</h3>
@@ -190,27 +180,15 @@ export default function Contact() {
             <div>
               <h4 className="font-bold mb-3 text-xs uppercase tracking-widest">Quick Links</h4>
               <ul className="space-y-1.5 text-xs text-gray-400">
-                <li>
-                  <button onClick={() => navigate('/')} className="hover:text-red-600 transition-colors duration-300">
-                    Home
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => navigate('/products')} className="hover:text-red-600 transition-colors duration-300">
-                    Products
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => navigate('/about')} className="hover:text-red-600 transition-colors duration-300">
-                    About
-                  </button>
-                </li>
+                <li><Link href="/"><a className="hover:text-red-600 transition-colors duration-300">Home</a></Link></li>
+                <li><Link href="/products"><a className="hover:text-red-600 transition-colors duration-300">Products</a></Link></li>
+                <li><Link href="/about"><a className="hover:text-red-600 transition-colors duration-300">About</a></Link></li>
               </ul>
             </div>
             <div>
               <h4 className="font-bold mb-3 text-xs uppercase tracking-widest">Follow Us</h4>
               <div className="flex gap-3">
-                <a href="https://www.instagram.com/thecreedlifestyle/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-600 transition-colors duration-300 text-xs">
+                <a href="https://www.instagram.com/creedlifestyle.np/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-600 transition-colors duration-300 text-xs">
                   Instagram
                 </a>
                 <a href="https://www.tiktok.com/@creed.lifestyle" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-600 transition-colors duration-300 text-xs">

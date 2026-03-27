@@ -1,19 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { Button } from '@/components/ui/button';
 import { ChevronDown } from 'lucide-react';
-import { useLocation } from 'wouter';
+import { Link } from 'wouter';
 import Navbar from '@/components/Navbar';
 
 /**
  * Design Philosophy: Premium Minimalist with Red Accent
  * Landing Page - Hero Section + Bottom Navigation
- * Video background with powder mist animation
- * 
- * UX IMPROVEMENTS:
- * - Added compact bottom navigation bar for easy access to all pages
- * - Updated video URL to use new CDN link
- * - Updated logo to use new CDN link
- * - Improved navigation accessibility
  */
 
 interface Particle {
@@ -35,7 +27,6 @@ export default function Home() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [particles, setParticles] = useState<Particle[]>([]);
   const particleIdRef = useRef(0);
-  const [, navigate] = useLocation();
 
   // Particle animation loop
   useEffect(() => {
@@ -84,19 +75,15 @@ export default function Home() {
     const handleTimeUpdate = () => {
       const currentTime = video.currentTime;
 
-      // Trigger mist and particles at 11 seconds, lasting until ~13.5 seconds (2.5 second duration)
+      // Trigger mist and particles at 11 seconds, lasting until ~13.5 seconds
       if (currentTime >= 11 && currentTime < 13.5) {
-        const mistProgress = (currentTime - 11) / 2.5; // 0 to 1 over 2.5 seconds
+        const mistProgress = (currentTime - 11) / 2.5;
 
-        // Play sound effect once
         if (mistProgress < 0.05 && audioRef.current) {
           audioRef.current.currentTime = 0;
-          audioRef.current.play().catch(() => {
-            // Audio play might fail due to browser policies
-          });
+          audioRef.current.play().catch(() => {});
         }
 
-        // Generate particles
         if (mistProgress < 0.8) {
           const particleCount = Math.floor(Math.random() * 8 + 4);
           const canvas = particleCanvasRef.current;
@@ -120,7 +107,6 @@ export default function Home() {
           }
         }
 
-        // Layer 1: Fast spread from center
         if (mistLayer1Ref.current) {
           const opacity1 = Math.sin(mistProgress * Math.PI) * 0.8;
           const scale1 = 1 + mistProgress * 0.8;
@@ -130,7 +116,6 @@ export default function Home() {
           mistLayer1Ref.current.style.filter = `blur(${blur1}px)`;
         }
 
-        // Layer 2: Medium spread with delay
         if (mistLayer2Ref.current) {
           const delayedProgress = Math.max(0, mistProgress - 0.2);
           const opacity2 = Math.sin(delayedProgress * Math.PI) * 0.6;
@@ -141,7 +126,6 @@ export default function Home() {
           mistLayer2Ref.current.style.filter = `blur(${blur2}px)`;
         }
 
-        // Layer 3: Slow spread with more delay
         if (mistLayer3Ref.current) {
           const delayedProgress3 = Math.max(0, mistProgress - 0.4);
           const opacity3 = Math.sin(delayedProgress3 * Math.PI) * 0.5;
@@ -152,22 +136,9 @@ export default function Home() {
           mistLayer3Ref.current.style.filter = `blur(${blur3}px)`;
         }
       } else if (currentTime >= 13.5) {
-        // Reset all layers
-        if (mistLayer1Ref.current) {
-          mistLayer1Ref.current.style.opacity = '0';
-          mistLayer1Ref.current.style.transform = 'scale(1)';
-          mistLayer1Ref.current.style.filter = 'blur(4px)';
-        }
-        if (mistLayer2Ref.current) {
-          mistLayer2Ref.current.style.opacity = '0';
-          mistLayer2Ref.current.style.transform = 'scale(1)';
-          mistLayer2Ref.current.style.filter = 'blur(8px)';
-        }
-        if (mistLayer3Ref.current) {
-          mistLayer3Ref.current.style.opacity = '0';
-          mistLayer3Ref.current.style.transform = 'scale(1)';
-          mistLayer3Ref.current.style.filter = 'blur(12px)';
-        }
+        if (mistLayer1Ref.current) mistLayer1Ref.current.style.opacity = '0';
+        if (mistLayer2Ref.current) mistLayer2Ref.current.style.opacity = '0';
+        if (mistLayer3Ref.current) mistLayer3Ref.current.style.opacity = '0';
       }
     };
 
@@ -179,14 +150,11 @@ export default function Home() {
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
       <Navbar currentPage="/" />
       
-      {/* Hidden audio element for powder sound */}
       <audio ref={audioRef} preload="auto">
         <source src="https://d2xsxph8kpxj0f.cloudfront.net/310519663483036246/nSUGdm8zsWGqqygCSQYgcC/powder-sound_298db3c0.wav" type="audio/wav" />
       </audio>
 
-      {/* Hero Section - Video Background */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-        {/* Video Background */}
         <div className="absolute inset-0 w-full h-full">
           <video
             ref={videoRef}
@@ -195,15 +163,13 @@ export default function Home() {
             muted
             loop
             playsInline
-            title="Creed Lifestyle - Premium Grooming Brand"
+            title="Creed Lifestyle - Premium Grooming Brand Cinematic Video"
           >
             <source src="https://d2xsxph8kpxj0f.cloudfront.net/310519663483354275/bXM8D6oMMGwALEvguBMTpw/lv_0_20260327145918_bb54f8c9.mp4" type="video/mp4" />
           </video>
-          {/* Dark overlay */}
           <div className="absolute inset-0 bg-black/40"></div>
         </div>
 
-        {/* Particle Canvas for realistic powder effect */}
         <canvas
           ref={particleCanvasRef}
           className="absolute inset-0 pointer-events-none z-20"
@@ -211,8 +177,6 @@ export default function Home() {
           height={typeof window !== 'undefined' ? window.innerHeight : 768}
         ></canvas>
 
-        {/* Powder Mist Animation - Multiple layers for realistic effect */}
-        {/* Layer 1: Fast spread */}
         <div
           ref={mistLayer1Ref}
           className="absolute inset-0 pointer-events-none z-20"
@@ -225,7 +189,6 @@ export default function Home() {
           }}
         ></div>
 
-        {/* Layer 2: Medium spread with delay */}
         <div
           ref={mistLayer2Ref}
           className="absolute inset-0 pointer-events-none z-20"
@@ -238,7 +201,6 @@ export default function Home() {
           }}
         ></div>
 
-        {/* Layer 3: Slow spread with more delay */}
         <div
           ref={mistLayer3Ref}
           className="absolute inset-0 pointer-events-none z-20"
@@ -251,7 +213,6 @@ export default function Home() {
           }}
         ></div>
 
-        {/* Content Overlay */}
         <div className="relative z-10 container flex flex-col items-center justify-center text-center space-y-8 px-4 sm:px-6 lg:px-8">
           <div className="space-y-6 max-w-2xl">
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
@@ -265,87 +226,70 @@ export default function Home() {
             </p>
           </div>
 
-          {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-            <button
-              onClick={() => navigate('/products')}
-              className="inline-flex items-center justify-center bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-3 text-xs uppercase tracking-widest rounded-sm transition-colors duration-200 active:scale-95"
-            >
-              Explore Now
-            </button>
-            <button
-              onClick={() => navigate('/about')}
-              className="inline-flex items-center justify-center border border-red-600 text-red-600 hover:bg-red-600/10 font-bold px-8 py-3 text-xs uppercase tracking-widest rounded-sm transition-colors duration-200 active:scale-95"
-            >
-              Learn More
-            </button>
+            <Link href="/products">
+              <a className="inline-flex items-center justify-center bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-3 text-xs uppercase tracking-widest rounded-sm transition-colors duration-200 active:scale-95">
+                Explore Now
+              </a>
+            </Link>
+            <Link href="/about">
+              <a className="inline-flex items-center justify-center border border-red-600 text-red-600 hover:bg-red-600/10 font-bold px-8 py-3 text-xs uppercase tracking-widest rounded-sm transition-colors duration-200 active:scale-95">
+                Learn More
+              </a>
+            </Link>
           </div>
 
-          {/* Scroll Indicator */}
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
             <ChevronDown className="w-5 h-5 text-red-600" />
           </div>
         </div>
       </section>
 
-      {/* Brand Vision Section */}
       <section className="relative py-20 sm:py-24 lg:py-32 bg-black border-y border-red-600/30">
         <div className="container px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center space-y-8">
             <div className="space-y-4">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight tracking-tight">Our Mission</h2>
-              <p className="text-xs sm:text-sm text-gray-300 leading-relaxed uppercase tracking-wide">
-                We believe in the power of precision grooming. From scalp care to body exfoliation and precision trimming,
-                every product is engineered for the man who refuses to compromise on quality.
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
+                Premium Quality <span className="text-red-600">Grooming</span>
+              </h2>
+              <p className="text-sm sm:text-base text-gray-400 leading-relaxed">
+                At Creed Lifestyle Nepal, we believe grooming is more than just a routine—it's an investment in yourself. Our products are designed for the modern man who values quality and precision.
               </p>
-            </div>
-
-            {/* Three Pillars */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 pt-12">
-              {[
-                { label: 'Scalp Care', value: 'Deep Cleanse' },
-                { label: 'Body Care', value: 'Exfoliation' },
-                { label: 'Precision', value: 'Trimming' },
-              ].map((item) => (
-                <div key={item.label} className="space-y-3 p-6 border border-red-600/30 hover:border-red-600 transition-colors duration-300">
-                  <p className="text-xs text-gray-400 uppercase tracking-widest font-bold">{item.label}</p>
-                  <p className="text-lg font-bold text-red-600">{item.value}</p>
-                </div>
-              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Bottom Navigation Bar - Compact Footer Navigation */}
-      <section className="relative bg-black border-t border-red-600/30">
+      <footer className="bg-black border-t border-red-600/30 py-12">
         <div className="container px-4 sm:px-6 lg:px-8">
-          <div className="py-8 sm:py-10">
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
-              {[
-                { label: 'Home', action: () => navigate('/') },
-                { label: 'Products', action: () => navigate('/products') },
-                { label: 'About', action: () => navigate('/about') },
-                { label: 'Contact', action: () => navigate('/contact') },
-              ].map((item) => (
-                <button
-                  key={item.label}
-                  onClick={item.action}
-                  className="text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-red-600 transition-colors duration-200 py-2 text-left"
-                >
-                  {item.label}
-                </button>
-              ))}
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+            <div className="flex flex-col items-center md:items-start gap-4">
+              <Link href="/">
+                <a className="flex items-center gap-3">
+                  <img
+                    src="https://d2xsxph8kpxj0f.cloudfront.net/310519663483354275/bXM8D6oMMGwALEvguBMTpw/creed-logo_d41f092c.jpg"
+                    alt="Creed Lifestyle Nepal Footer Logo with Matte Finish"
+                    className="w-10 h-10 rounded-full"
+                  />
+                  <span className="font-bold text-lg tracking-widest uppercase">Creed</span>
+                </a>
+              </Link>
+              <p className="text-xs text-gray-500 uppercase tracking-widest">© 2026 Creed Lifestyle Nepal</p>
+            </div>
+            
+            <div className="flex gap-8">
+              <Link href="/"><a className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors">Home</a></Link>
+              <Link href="/products"><a className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors">Products</a></Link>
+              <Link href="/contact"><a className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors">Contact</a></Link>
             </div>
 
-            <div className="border-t border-red-600/20 mt-8 pt-6 text-center">
-              <p className="text-xs text-gray-500">
-                &copy; 2026 Creed Lifestyle Nepal. Built for Men Who Move Different.
-              </p>
+            <div className="flex gap-6">
+              <a href="https://www.instagram.com/creedlifestyle.np/" target="_blank" rel="noopener noreferrer" className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors">Instagram</a>
+              <a href="https://www.tiktok.com/@creed.lifestyle" target="_blank" rel="noopener noreferrer" className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors">TikTok</a>
             </div>
           </div>
         </div>
-      </section>
+      </footer>
     </div>
   );
 }

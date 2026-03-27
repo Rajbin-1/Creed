@@ -11,7 +11,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const baseUrl = 'https://creed-lifestyle.manus.space';
+const baseUrl = 'https://creednp.onrender.com';
 
 const pages = [
   {
