@@ -138,6 +138,7 @@ export default function Products() {
       name: product.name,
       price: product.priceNPR,
       image: product.image,
+      quantity: 1,
     });
     setAddedItem(product.id);
     setTimeout(() => setAddedItem(null), 2000);
