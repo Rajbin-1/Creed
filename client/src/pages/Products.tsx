@@ -269,35 +269,80 @@ export default function Products() {
                     <div className={`flex items-center justify-between pt-6 border-t ${
                       product.isCombo ? 'border-yellow-500/20' : 'border-red-600/20'
                     }`}>
-                      <div className="space-y-1">
-                        <p className="text-xs text-gray-500 uppercase tracking-widest">Price</p>
-                        <p className={`text-xl sm:text-2xl font-bold ${
-                          product.isCombo ? 'text-yellow-500' : 'text-red-600'
-                        }`}>
-                          {product.price}
-                        </p>
-                      </div>
+                      <span className={`text-xl sm:text-2xl font-bold ${
+                        product.isCombo ? 'text-yellow-500' : 'text-red-600'
+                      }`}>
+                        {product.price}
+                      </span>
+                    </div>
 
-                      <div className="flex items-center gap-3">
-                        <a
-                          href={product.darazLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={`flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-widest transition-all duration-300 ${
-                            product.isCombo
-                              ? 'bg-yellow-500 text-black hover:bg-yellow-400'
-                              : 'bg-red-600 text-white hover:bg-red-500'
-                          }`}
-                        >
-                          <ShoppingBag size={14} />
-                          Shop on Daraz
-                        </a>
-                      </div>
+                    {/* Order Buttons */}
+                    <div className="space-y-3 pt-4">
+                      <button
+                        onClick={() => handleAddToCart(product)}
+                        disabled={!inStock}
+                        className={`w-full inline-flex items-center justify-center gap-2 rounded-sm transition-all duration-300 text-xs font-bold uppercase tracking-wider active:scale-95 px-4 py-3 ${
+                          !inStock
+                            ? 'bg-gray-600 cursor-not-allowed opacity-50'
+                            : addedItem === product.id
+                            ? 'bg-green-600 hover:bg-green-700 text-white'
+                            : product.isCombo
+                            ? 'bg-yellow-500 hover:bg-yellow-600 text-black'
+                            : 'bg-red-600 hover:bg-red-700 text-white'
+                        }`}
+                      >
+                        <ShoppingCart size={14} />
+                        {addedItem === product.id ? 'Added!' : 'Add to Cart'}
+                      </button>
+
+                      <a
+                        href={product.darazLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`w-full inline-flex items-center justify-center gap-2 border rounded-sm transition-all duration-300 text-xs font-bold uppercase tracking-wider active:scale-95 px-4 py-3 ${
+                          product.isCombo
+                            ? 'border-yellow-500/50 text-yellow-500 hover:bg-yellow-500/10'
+                            : 'border-red-600/50 text-red-600 hover:bg-red-600/10'
+                        }`}
+                      >
+                        <ShoppingBag size={14} />
+                        Shop on Daraz
+                      </a>
                     </div>
                   </div>
                 </div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="relative py-16 sm:py-20 lg:py-24 bg-black border-t border-red-600/30">
+        <div className="container px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl mx-auto text-center space-y-6">
+            {getTotalItems() > 0 ? (
+              <>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight tracking-tight">
+                  You have {getTotalItems()} item{getTotalItems() > 1 ? 's' : ''} in your cart
+                </h2>
+                <button
+                  onClick={() => navigate('/cart')}
+                  className="inline-flex items-center justify-center bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-3 text-xs uppercase tracking-widest rounded-sm transition-colors duration-200 active:scale-95"
+                >
+                  Proceed to Checkout
+                </button>
+              </>
+            ) : (
+              <>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight tracking-tight">
+                  Ready to Elevate Your Grooming?
+                </h2>
+                <p className="text-xs sm:text-sm text-gray-300 uppercase tracking-wide">
+                  Add items to your cart and order via Instagram.
+                </p>
+              </>
+            )}
           </div>
         </div>
       </section>
