@@ -3,6 +3,7 @@ import { useCart } from '@/contexts/CartContext';
 import { Zap, Droplet, Scissors, ShoppingBag, Instagram, Facebook, ShoppingCart, Sparkles } from 'lucide-react';
 import { useState } from 'react';
 import { useStock } from '@/hooks/useStock';
+import Navbar from '@/components/Navbar';
 
 /**
  * Products Page with Shopping Cart, Stock Management & Daraz Integration
@@ -146,6 +147,7 @@ export default function Products() {
 
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
+      <Navbar currentPage="/products" />
 
       {/* Page Header */}
       <section className="relative pt-32 pb-16 sm:pb-20 lg:pb-24 bg-black border-b border-red-600/30">
@@ -247,7 +249,7 @@ export default function Products() {
                       <span className={`text-xs font-bold uppercase tracking-widest ${
                         inStock ? 'text-green-500' : 'text-red-500'
                       }`}>
-                        {stockStatus}
+                        {inStock ? 'In Stock' : 'Out of Stock'}
                       </span>
                     </div>
 

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ChevronDown } from 'lucide-react';
 import { useLocation } from 'wouter';
+import Navbar from '@/components/Navbar';
 
 /**
  * Design Philosophy: Premium Minimalist with Red Accent
@@ -179,56 +180,8 @@ export default function Home() {
         <source src="https://d2xsxph8kpxj0f.cloudfront.net/310519663483036246/nSUGdm8zsWGqqygCSQYgcC/powder-sound_298db3c0.wav" type="audio/wav" />
       </audio>
 
-      {/* Navigation - Fixed */}
-      <nav className="fixed top-0 left-0 right-0 z-40 bg-black/80 backdrop-blur-sm border-b border-red-600/30">
-        <div className="container flex items-center justify-between py-4">
-          <button
-            onClick={() => navigate('/')}
-            className="flex items-center gap-3 hover:opacity-80 transition-opacity"
-          >
-            <img
-              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663483354275/bXM8D6oMMGwALEvguBMTpw/creed-logo_d41f092c.jpg"
-              alt="Creed Lifestyle"
-              className="w-8 h-8 rounded-full"
-            />
-            <span className="font-bold text-sm tracking-widest uppercase hidden sm:inline">Creed</span>
-          </button>
-
-          {/* Navigation Links */}
-          <div className="flex items-center gap-4 sm:gap-8">
-            <button
-              onClick={() => navigate('/')}
-              className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors duration-200"
-            >
-              Home
-            </button>
-            <button
-              onClick={() => navigate('/products')}
-              className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors duration-200"
-            >
-              Products
-            </button>
-            <button
-              onClick={() => navigate('/about')}
-              className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors duration-200"
-            >
-              About
-            </button>
-            <button
-              onClick={() => navigate('/reviews')}
-              className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors duration-200"
-            >
-              Reviews
-            </button>
-            <button
-              onClick={() => navigate('/contact')}
-              className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors duration-200"
-            >
-              Contact
-            </button>
-          </div>
-        </div>
-      </nav>
+      {/* Navbar */}
+      <Navbar currentPage="/" />
 
       {/* Hero Section - Video Background */}
       <section className="powder-container relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
