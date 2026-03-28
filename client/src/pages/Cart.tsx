@@ -61,7 +61,7 @@ Please confirm availability and delivery details. Thanks!`;
       toast.success('Order message copied to clipboard!');
       clearCart();
       setTimeout(() => {
-        window.open('https://www.instagram.com/creedlifestyle.np/', '_blank');
+        window.open('https://www.instagram.com/thecreedlifestyle?igsh=MWs1cmJiM21rMHNtaw==', '_blank');
       }, 500);
     }).catch(() => {
       toast.error('Failed to copy message');
