@@ -120,14 +120,14 @@ export default function Products() {
     },
     {
       id: 8,
-      name: 'Grooming Duo',
+      name: 'Scalp Massager & Body Exfoliator Combo',
       feature: 'Essential Duo - Save 15%',
       price: 'Rs. 3,999',
       priceNPR: 3999,
       icon: Sparkles,
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663483036246/nSUGdm8zsWGqqygCSQYgcC/creed-trimmer_12027949.jpg',
+      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663483036246/nSUGdm8zsWGqqygCSQYgcC/creed-massager_36df39c6.jpg',
       darazLink: 'https://s.daraz.com.np/s.Z00rN',
-      description: 'Trimmer + Exfoliator. Perfect starter combo for daily grooming.',
+      description: 'Scalp Massager + Body Exfoliator. Perfect starter combo for daily grooming.',
       isCombo: true,
       stockId: 'grooming-duo',
     },
@@ -168,7 +168,7 @@ export default function Products() {
         <div className="container px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-center gap-6 sm:gap-8">
             <a
-              href="https://www.instagram.com/thecreedlifestyle"
+              href="https://www.instagram.com/thecreedlifestyle?igsh=MWs1cmJiM21rMHNtaw=="
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-red-600 hover:text-red-500 transition-colors duration-300"

@@ -32,30 +32,30 @@
     "exfoliator": {
       "id": "exfoliator",
       "name": "Body Exfoliator",
-      "stock": "in-stock",
-      "quantity": 38,
+      "stock": "out-of-stock",
+      "quantity": 0,
       "darazLink": "https://s.daraz.com.np/s.Z00rf"
     },
     "back-exfoliator": {
       "id": "back-exfoliator",
       "name": "Back Exfoliator",
-      "stock": "in-stock",
-      "quantity": 25,
+      "stock": "out-of-stock",
+      "quantity": 0,
       "darazLink": "https://s.daraz.com.np/s.Z00Ia"
     },
     "power-trio": {
       "id": "power-trio",
       "name": "Power Trio Combo",
-      "stock": "in-stock",
-      "quantity": 15,
+      "stock": "out-of-stock",
+      "quantity": 0,
       "isCombo": true,
       "darazLink": "https://s.daraz.com.np/s.Z00I4"
     },
     "grooming-duo": {
       "id": "grooming-duo",
-      "name": "Grooming Duo",
-      "stock": "in-stock",
-      "quantity": 20,
+      "name": "Scalp Massager & Body Exfoliator Combo",
+      "stock": "out-of-stock",
+      "quantity": 0,
       "isCombo": true,
       "darazLink": "https://s.daraz.com.np/s.Z00rN"
     }
