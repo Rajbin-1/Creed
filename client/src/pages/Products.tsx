@@ -1,10 +1,11 @@
 import { Link } from 'wouter';
-import { Zap, Droplet, Scissors, ShoppingCart, Plus, Minus, MapPin } from 'lucide-react';
+import { Zap, Droplet, Scissors, ShoppingCart, Plus, Minus, MapPin, Instagram, Facebook } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { toast } from 'sonner';
 import Navbar from '@/components/Navbar';
 import { useCart } from '@/contexts/CartContext';
 import { useLocation } from '@/contexts/LocationContext';
+import { SOCIAL_LINKS } from '@/constants/products';
 
 /**
  * Products Page with Shopping Cart & Daraz Integration
@@ -269,8 +270,8 @@ export default function Products() {
             </div>
 
             <div className="flex gap-6">
-              <a href="https://www.instagram.com/creedlifestyle.np/" target="_blank" rel="noopener noreferrer" className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors">Instagram</a>
-              <a href="https://www.tiktok.com/@creed.lifestyle" target="_blank" rel="noopener noreferrer" className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors">TikTok</a>
+              <a href={SOCIAL_LINKS.instagram.url} target="_blank" rel="noopener noreferrer" className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors" title="Follow on Instagram">Instagram</a>
+              <a href={SOCIAL_LINKS.facebook.url} target="_blank" rel="noopener noreferrer" className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors" title="Follow on Facebook">Facebook</a>
             </div>
           </div>
         </div>
