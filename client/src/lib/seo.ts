@@ -14,7 +14,7 @@ export interface SEOMetadata {
   robots?: string;
 }
 
-const baseUrl = 'https://creedlifestyle.pages.dev';
+const baseUrl = 'https://creednp.vercel.app';
 const siteName = 'Creed Lifestyle Nepal';
 const logoUrl = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663483354275/bXM8D6oMMGwALEvguBMTpw/creed-logo_d41f092c.jpg';
 
@@ -130,9 +130,9 @@ export const generateStructuredData = () => {
     logo: logoUrl,
     description: 'Premium men\'s grooming products for the modern man in Nepal',
     sameAs: [
-      'https://www.instagram.com/creedlifestyle.np/',
+      'https://www.instagram.com/thecreedlifestyle?igsh=MWs1cmJiM21rMHNtaw==',
       'https://www.tiktok.com/@creed.lifestyle',
-      'https://www.facebook.com/people/Creed-Lifestyle-Nepal/61579235975991/',
+      'https://www.facebook.com/share/1FHbzcrj9v/',
     ],
     contactPoint: {
       '@type': 'ContactPoint',
