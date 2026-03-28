@@ -1,14 +1,14 @@
-import { Link } from 'wouter';
-import { Zap, Droplet, Scissors, ShoppingCart, Plus, Minus, MapPin, Instagram, Facebook } from 'lucide-react';
-import { useState, useRef, useEffect } from 'react';
-import { toast } from 'sonner';
-import Navbar from '@/components/Navbar';
+import { useLocation } from 'wouter';
 import { useCart } from '@/contexts/CartContext';
-import { useLocation } from '@/contexts/LocationContext';
-import { SOCIAL_LINKS } from '@/constants/products';
+import { Zap, Droplet, Scissors, ShoppingBag, Instagram, Facebook, ShoppingCart, Sparkles } from 'lucide-react';
+import { useState } from 'react';
+import { useStock } from '@/hooks/useStock';
 
 /**
- * Products Page with Shopping Cart & Daraz Integration
+ * Products Page with Shopping Cart, Stock Management & Daraz Integration
+ * - All 8 products with real Daraz links
+ * - Premium combo card styling with shimmer effect
+ * - Stock status from useStock hook
  */
 
 interface Product {
@@ -19,16 +19,17 @@ interface Product {
   priceNPR: number;
   icon: any;
   image: string;
-  darazId: string;
-  darazWebLink: string;
+  darazLink: string;
   description: string;
+  isCombo?: boolean;
+  stockId: string;
 }
 
 export default function Products() {
-  const { addToCart } = useCart();
-  const { location, setLocation, requestLocation, isLoadingLocation } = useLocation();
-  const [quantities, setQuantities] = useState<Record<number, number>>({});
-  const locationRef = useRef<HTMLInputElement>(null);
+  const [, navigate] = useLocation();
+  const { addToCart, getTotalItems } = useCart();
+  const { stock, loading: stockLoading, getStockStatus, isInStock } = useStock();
+  const [addedItem, setAddedItem] = useState<number | null>(null);
 
   const products: Product[] = [
     {
@@ -39,9 +40,9 @@ export default function Products() {
       priceNPR: 1499,
       icon: Zap,
       image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663483036246/nSUGdm8zsWGqqygCSQYgcC/creed-powder_a39967b7.jpg',
-      darazId: '131103607',
-      darazWebLink: 'https://www.daraz.com.np/products/creed-hair-volumizing-powder-i131103607.html',
+      darazLink: 'https://s.daraz.com.np/s.Z00Jl',
       description: 'Instant volume without greasiness. Perfect for daily use and all-day hold.',
+      stockId: 'hair-volumizing-powder',
     },
     {
       id: 2,
@@ -51,74 +52,102 @@ export default function Products() {
       priceNPR: 3299,
       icon: Scissors,
       image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663483036246/nSUGdm8zsWGqqygCSQYgcC/creed-trimmer_12027949.jpg',
-      darazId: '131102927',
-      darazWebLink: 'https://www.daraz.com.np/products/creed-back-scrubber-i131102927.html',
+      darazLink: 'https://s.daraz.com.np/s.Z00Jr',
       description: 'Waterproof, 7000 RPM, 16 dial lengths. Perfect for smooth trimming.',
+      stockId: 'ball-body-trimmer',
     },
     {
       id: 3,
+      name: 'Beard Groomer Pro',
+      feature: 'Professional Precision Beard Styling',
+      price: 'Rs. 2,799',
+      priceNPR: 2799,
+      icon: Zap,
+      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663483036246/nSUGdm8zsWGqqygCSQYgcC/creed-trimmer_12027949.jpg',
+      darazLink: 'https://s.daraz.com.np/s.Z00JC',
+      description: 'Professional-grade beard grooming with precision settings.',
+      stockId: 'beard-groomer-pro',
+    },
+    {
+      id: 4,
       name: 'Silicone Scalp Massager',
       feature: 'Soft food-grade silicone to boost circulation',
       price: 'Rs. 1,050',
       priceNPR: 1050,
       icon: Droplet,
       image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663483036246/nSUGdm8zsWGqqygCSQYgcC/creed-massager_36df39c6.jpg',
-      darazId: '419080369',
-      darazWebLink: 'https://www.daraz.com.np/products/creed-silicone-scalp-massager-i419080369.html',
+      darazLink: 'https://s.daraz.com.np/s.Z00rY',
       description: 'Boosts blood circulation. Reduces hair fall and promotes scalp health.',
+      stockId: 'silicone-scalp-massager',
     },
     {
-      id: 4,
+      id: 5,
       name: 'Body Exfoliator',
       feature: 'Original Viscose Fiber Glove for deep skin renewal',
       price: 'Rs. 1,099',
       priceNPR: 1099,
       icon: Zap,
       image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663483036246/nSUGdm8zsWGqqygCSQYgcC/creed-exfoliator_c21280b1.png',
-      darazId: '418959547',
-      darazWebLink: 'https://www.daraz.com.np/products/creed-exfoliator-glove-i418959547.html',
+      darazLink: 'https://s.daraz.com.np/s.Z00rf',
       description: 'Deep exfoliation for smoother skin. Unclogs pores and reduces ingrown hairs.',
+      stockId: 'exfoliator',
+    },
+    {
+      id: 6,
+      name: 'Back Exfoliator',
+      feature: 'Extended reach for full-body exfoliation',
+      price: 'Rs. 1,299',
+      priceNPR: 1299,
+      icon: Droplet,
+      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663483036246/nSUGdm8zsWGqqygCSQYgcC/creed-exfoliator_c21280b1.png',
+      darazLink: 'https://s.daraz.com.np/s.Z00Ia',
+      description: 'Reach your back with ease. Premium exfoliation for hard-to-reach areas.',
+      stockId: 'back-exfoliator',
+    },
+    {
+      id: 7,
+      name: 'Power Trio Combo',
+      feature: 'Ultimate Grooming Bundle - Save 25%',
+      price: 'Rs. 5,499',
+      priceNPR: 5499,
+      icon: Sparkles,
+      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663483036246/nSUGdm8zsWGqqygCSQYgcC/creed-powder_a39967b7.jpg',
+      darazLink: 'https://s.daraz.com.np/s.Z00I4',
+      description: 'Hair Powder + Trimmer + Scalp Massager. The complete grooming solution.',
+      isCombo: true,
+      stockId: 'power-trio',
+    },
+    {
+      id: 8,
+      name: 'Grooming Duo',
+      feature: 'Essential Duo - Save 15%',
+      price: 'Rs. 3,999',
+      priceNPR: 3999,
+      icon: Sparkles,
+      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663483036246/nSUGdm8zsWGqqygCSQYgcC/creed-trimmer_12027949.jpg',
+      darazLink: 'https://s.daraz.com.np/s.Z00rN',
+      description: 'Trimmer + Exfoliator. Perfect starter combo for daily grooming.',
+      isCombo: true,
+      stockId: 'grooming-duo',
     },
   ];
 
   const handleAddToCart = (product: Product) => {
-    const quantity = quantities[product.id] || 1;
     addToCart({
       id: product.id,
       name: product.name,
       price: product.priceNPR,
-      quantity,
       image: product.image,
     });
-    toast.success(`${product.name} added to cart!`);
-    setQuantities((prev) => ({ ...prev, [product.id]: 1 }));
-  };
-
-  const handleViewOnDaraz = (product: Product) => {
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (isMobile) {
-      const deepLink = `daraz://www.daraz.com.np/products/i${product.darazId}.html`;
-      window.location.href = deepLink;
-      setTimeout(() => {
-        window.open(product.darazWebLink, '_blank');
-      }, 500);
-    } else {
-      window.open(product.darazWebLink, '_blank');
-    }
-  };
-
-  const updateQuantity = (productId: number, delta: number) => {
-    setQuantities(prev => ({
-      ...prev,
-      [productId]: Math.max(1, (prev[productId] || 1) + delta)
-    }));
+    setAddedItem(product.id);
+    setTimeout(() => setAddedItem(null), 2000);
   };
 
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
-      <Navbar currentPage="/products" />
 
-      <section className="relative pt-20 sm:pt-32 pb-12 sm:pb-16 lg:pb-20 bg-black border-b border-red-600/30">
+      {/* Page Header */}
+      <section className="relative pt-32 pb-16 sm:pb-20 lg:pb-24 bg-black border-b border-red-600/30">
         <div className="container px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center space-y-4">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight tracking-tight">
@@ -131,112 +160,150 @@ export default function Products() {
         </div>
       </section>
 
-      {/* Location Section */}
-      <section className="relative py-8 sm:py-12 lg:py-16 bg-black border-b border-red-600/30">
+      {/* Social Links */}
+      <section className="relative py-8 bg-black border-b border-red-600/20">
         <div className="container px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl mx-auto">
-            <div className="space-y-4">
-              <label className="text-xs font-bold uppercase tracking-widest text-gray-300 flex items-center gap-2">
-                <MapPin size={16} className="text-red-600" />
-                Your Location (City/Area)
-              </label>
-              <div className="flex gap-2">
-                <input
-                  ref={locationRef}
-                  type="text"
-                  placeholder="e.g., Kathmandu, Pokhara"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  className="flex-1 px-4 py-3 bg-black border border-red-600/30 text-white placeholder-gray-500 focus:border-red-600 focus:outline-none transition-colors duration-200"
-                />
-                <button
-                  onClick={requestLocation}
-                  disabled={isLoadingLocation}
-                  className="px-4 py-3 bg-red-600 hover:bg-red-700 disabled:bg-red-600/50 text-white font-bold text-xs uppercase tracking-widest rounded-sm transition-colors duration-200"
-                >
-                  {isLoadingLocation ? 'Detecting...' : 'Auto Detect'}
-                </button>
-              </div>
-              <p className="text-xs text-gray-400">
-                We'll use this for delivery coordination.
-              </p>
-            </div>
+          <div className="flex items-center justify-center gap-6 sm:gap-8">
+            <a
+              href="https://www.instagram.com/thecreedlifestyle"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-red-600 hover:text-red-500 transition-colors duration-300"
+              title="Follow on Instagram"
+            >
+              <Instagram size={24} className="text-red-600" />
+              <span className="text-xs font-bold uppercase tracking-widest hidden sm:inline">Instagram</span>
+            </a>
+            <div className="w-px h-6 bg-red-600/30"></div>
+            <a
+              href="https://www.facebook.com/share/1FHbzcrj9v/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-red-600 hover:text-red-500 transition-colors duration-300"
+              title="Follow on Facebook"
+            >
+              <Facebook size={24} className="text-red-600" />
+              <span className="text-xs font-bold uppercase tracking-widest hidden sm:inline">Facebook</span>
+            </a>
           </div>
         </div>
       </section>
 
       {/* Products Grid */}
-      <section className="relative py-12 sm:py-20 lg:py-28 bg-black">
+      <section className="relative py-20 sm:py-24 lg:py-32 bg-black">
         <div className="container px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
             {products.map((product) => {
               const Icon = product.icon;
+              const inStock = isInStock(product.stockId);
+              const stockStatus = getStockStatus(product.stockId);
+
               return (
                 <div
                   key={product.id}
-                  className="group relative overflow-hidden border border-red-600/30 bg-black hover:border-red-600 hover:shadow-lg hover:shadow-red-600/20 transition-all duration-300"
+                  className={`group relative overflow-hidden border transition-all duration-300 ${
+                    product.isCombo
+                      ? 'border-yellow-500/50 bg-gradient-to-br from-black via-black to-yellow-900/10 hover:border-yellow-400 hover:shadow-lg hover:shadow-yellow-400/30 animate-pulse-slow'
+                      : 'border-red-600/30 bg-black hover:border-red-600 hover:shadow-lg hover:shadow-red-600/20'
+                  }`}
                 >
+                  {/* Combo Premium Badge */}
+                  {product.isCombo && (
+                    <div className="absolute top-4 right-4 z-20 bg-gradient-to-r from-yellow-500 to-yellow-600 text-black px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-1">
+                      <Sparkles size={14} />
+                      Premium Combo
+                    </div>
+                  )}
+
+                  {/* Product Image */}
                   <div className="relative w-full h-64 sm:h-80 overflow-hidden bg-black/50">
                     <img
                       src={product.image}
-                      alt={`${product.name} - ${product.feature} - Creed Lifestyle Nepal Premium Grooming`}
+                      alt={product.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-300"></div>
                   </div>
 
+                  {/* Product Info */}
                   <div className="relative z-10 space-y-6 p-6 sm:p-8">
                     <div className="flex items-center justify-between">
-                      <div className="w-10 h-10 bg-red-600/20 flex items-center justify-center group-hover:bg-red-600 transition-colors duration-300">
-                        <Icon className="w-5 h-5 text-red-600 group-hover:text-white" />
+                      <div
+                        className={`w-10 h-10 flex items-center justify-center ${
+                          product.isCombo
+                            ? 'bg-yellow-500/20 group-hover:bg-yellow-500'
+                            : 'bg-red-600/20 group-hover:bg-red-600'
+                        } transition-colors duration-300`}
+                      >
+                        <Icon
+                          className={`w-5 h-5 ${
+                            product.isCombo
+                              ? 'text-yellow-500 group-hover:text-black'
+                              : 'text-red-600 group-hover:text-white'
+                          }`}
+                        />
                       </div>
-                      <span className="text-xs font-bold text-red-600/70 uppercase tracking-widest">Premium</span>
+                      <span className={`text-xs font-bold uppercase tracking-widest ${
+                        inStock ? 'text-green-500' : 'text-red-500'
+                      }`}>
+                        {stockStatus}
+                      </span>
                     </div>
 
                     <div className="space-y-3">
-                      <h3 className="text-lg sm:text-xl font-bold leading-tight group-hover:text-red-600 transition-colors duration-300">
+                      <h3 className={`text-lg sm:text-xl font-bold leading-tight transition-colors duration-300 ${
+                        product.isCombo
+                          ? 'group-hover:text-yellow-400'
+                          : 'group-hover:text-red-600'
+                      }`}>
                         {product.name}
                       </h3>
                       <p className="text-xs sm:text-sm text-gray-400 leading-relaxed">{product.feature}</p>
                       <p className="text-xs text-gray-500 leading-relaxed">{product.description}</p>
                     </div>
 
-                    <div className="flex items-center justify-between pt-6 border-t border-red-600/20">
-                      <span className="text-xl sm:text-2xl font-bold text-red-600">{product.price}</span>
+                    <div className={`flex items-center justify-between pt-6 border-t ${
+                      product.isCombo ? 'border-yellow-500/20' : 'border-red-600/20'
+                    }`}>
+                      <span className={`text-xl sm:text-2xl font-bold ${
+                        product.isCombo ? 'text-yellow-500' : 'text-red-600'
+                      }`}>
+                        {product.price}
+                      </span>
                     </div>
 
-                    {/* Quantity Selector */}
-                    <div className="flex items-center gap-3 pt-4 border-t border-red-600/30">
-                      <span className="text-xs text-gray-400 uppercase tracking-widest">Qty:</span>
-                      <button
-                        onClick={() => updateQuantity(product.id, -1)}
-                        className="w-8 h-8 flex items-center justify-center border border-red-600/30 hover:border-red-600 transition-colors"
-                      >
-                        <Minus size={14} />
-                      </button>
-                      <span className="w-8 text-center font-bold">{quantities[product.id] || 1}</span>
-                      <button
-                        onClick={() => updateQuantity(product.id, 1)}
-                        className="w-8 h-8 flex items-center justify-center border border-red-600/30 hover:border-red-600 transition-colors"
-                      >
-                        <Plus size={14} />
-                      </button>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="grid grid-cols-2 gap-4 pt-4">
+                    {/* Order Buttons */}
+                    <div className="space-y-3 pt-4">
                       <button
                         onClick={() => handleAddToCart(product)}
-                        className="flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-3 text-[10px] uppercase tracking-widest transition-all duration-200"
+                        disabled={!inStock}
+                        className={`w-full inline-flex items-center justify-center gap-2 rounded-sm transition-all duration-300 text-xs font-bold uppercase tracking-wider active:scale-95 px-4 py-3 ${
+                          !inStock
+                            ? 'bg-gray-600 cursor-not-allowed opacity-50'
+                            : addedItem === product.id
+                            ? 'bg-green-600 hover:bg-green-700 text-white'
+                            : product.isCombo
+                            ? 'bg-yellow-500 hover:bg-yellow-600 text-black'
+                            : 'bg-red-600 hover:bg-red-700 text-white'
+                        }`}
                       >
                         <ShoppingCart size={14} />
-                        Add to Cart
+                        {addedItem === product.id ? 'Added!' : 'Add to Cart'}
                       </button>
-                      <button
-                        onClick={() => handleViewOnDaraz(product)}
-                        className="flex items-center justify-center gap-2 bg-black border border-red-600 text-red-600 hover:bg-red-600/10 font-bold py-3 text-[10px] uppercase tracking-widest transition-all duration-200"
+
+                      <a
+                        href={product.darazLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`w-full inline-flex items-center justify-center gap-2 border rounded-sm transition-all duration-300 text-xs font-bold uppercase tracking-wider active:scale-95 px-4 py-3 ${
+                          product.isCombo
+                            ? 'border-yellow-500/50 text-yellow-500 hover:bg-yellow-500/10'
+                            : 'border-red-600/50 text-red-600 hover:bg-red-600/10'
+                        }`}
                       >
-                        View on Daraz
-                      </button>
+                        <ShoppingBag size={14} />
+                        Shop on Daraz
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -246,33 +313,89 @@ export default function Products() {
         </div>
       </section>
 
-      <footer className="bg-black border-t border-red-600/30 py-12">
+      {/* Call to Action */}
+      <section className="relative py-16 sm:py-20 lg:py-24 bg-black border-t border-red-600/30">
         <div className="container px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-            <div className="flex flex-col items-center md:items-start gap-4">
-              <Link href="/">
-                <a className="flex items-center gap-3">
-                  <img
-                    src="https://d2xsxph8kpxj0f.cloudfront.net/310519663483354275/bXM8D6oMMGwALEvguBMTpw/creed-logo_d41f092c.jpg"
-                    alt="Creed Lifestyle Nepal Footer Logo"
-                    className="w-10 h-10 rounded-full"
-                  />
-                  <span className="font-bold text-lg tracking-widest uppercase">Creed</span>
-                </a>
-              </Link>
-              <p className="text-xs text-gray-500 uppercase tracking-widest">© 2026 Creed Lifestyle Nepal</p>
-            </div>
-            
-            <div className="flex gap-8">
-              <Link href="/"><a className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors">Home</a></Link>
-              <Link href="/products"><a className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors">Products</a></Link>
-              <Link href="/contact"><a className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors">Contact</a></Link>
-            </div>
+          <div className="max-w-2xl mx-auto text-center space-y-6">
+            {getTotalItems() > 0 ? (
+              <>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight tracking-tight">
+                  You have {getTotalItems()} item{getTotalItems() > 1 ? 's' : ''} in your cart
+                </h2>
+                <button
+                  onClick={() => navigate('/checkout')}
+                  className="inline-flex items-center justify-center bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-3 text-xs uppercase tracking-widest rounded-sm transition-colors duration-200 active:scale-95"
+                >
+                  Proceed to Checkout
+                </button>
+              </>
+            ) : (
+              <>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight tracking-tight">
+                  Ready to Elevate Your Grooming?
+                </h2>
+                <p className="text-xs sm:text-sm text-gray-300 uppercase tracking-wide">
+                  Add items to your cart and order via Instagram.
+                </p>
+              </>
+            )}
+          </div>
+        </div>
+      </section>
 
-            <div className="flex gap-6">
-              <a href={SOCIAL_LINKS.instagram.url} target="_blank" rel="noopener noreferrer" className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors" title="Follow on Instagram">Instagram</a>
-              <a href={SOCIAL_LINKS.facebook.url} target="_blank" rel="noopener noreferrer" className="text-xs font-bold uppercase tracking-widest hover:text-red-600 transition-colors" title="Follow on Facebook">Facebook</a>
+      {/* Footer */}
+      <footer className="border-t border-red-600/30 bg-black py-12 sm:py-16">
+        <div className="container px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12 mb-8 sm:mb-12">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <img
+                  src="https://d2xsxph8kpxj0f.cloudfront.net/310519663483354275/bXM8D6oMMGwALEvguBMTpw/creed-logo_d41f092c.jpg"
+                  alt="Creed"
+                  className="w-6 h-6 rounded-full"
+                />
+                <h3 className="font-bold text-sm uppercase tracking-widest">Creed Lifestyle</h3>
+              </div>
+              <p className="text-gray-400 text-xs leading-relaxed">
+                Premium men's grooming for the modern man.
+              </p>
             </div>
+            <div>
+              <h4 className="font-bold mb-4 text-xs uppercase tracking-widest">Quick Links</h4>
+              <ul className="space-y-2 text-xs text-gray-400">
+                <li>
+                  <button onClick={() => navigate('/')} className="hover:text-red-600 transition-colors duration-300">
+                    Home
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => navigate('/about')} className="hover:text-red-600 transition-colors duration-300">
+                    About Us
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => navigate('/reviews')} className="hover:text-red-600 transition-colors duration-300">
+                    Reviews
+                  </button>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-bold mb-4 text-xs uppercase tracking-widest">Follow Us</h4>
+              <div className="flex gap-4">
+                <a href="https://www.instagram.com/thecreedlifestyle/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-600 transition-colors duration-300 text-xs">
+                  Instagram
+                </a>
+                <a href="https://www.facebook.com/share/1FHbzcrj9v/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-600 transition-colors duration-300 text-xs">
+                  Facebook
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="border-t border-red-600/20 pt-8 sm:pt-12 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-4">
+            <p>&copy; 2026 Creed Lifestyle Nepal. All rights reserved.</p>
+            <p>Built for Men Who Move Different</p>
           </div>
         </div>
       </footer>
