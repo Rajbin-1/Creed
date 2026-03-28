@@ -14,7 +14,7 @@ export interface SEOMetadata {
   robots?: string;
 }
 
-const baseUrl = 'https://creednp.onrender.com';
+const baseUrl = 'https://creedlifestyle.pages.dev';
 const siteName = 'Creed Lifestyle Nepal';
 const logoUrl = 'https://d2xsxph8kpxj0f.cloudfront.net/310519663483354275/bXM8D6oMMGwALEvguBMTpw/creed-logo_d41f092c.jpg';
 

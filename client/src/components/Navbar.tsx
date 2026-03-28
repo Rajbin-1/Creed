@@ -1,6 +1,7 @@
-import { Link, useLocation } from 'wouter';
+import { Link } from 'wouter';
 import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
+import CartBadge from './CartBadge';
 
 /**
  * Navbar Component - Reusable Navigation Bar
@@ -56,18 +57,23 @@ export default function Navbar({ currentPage }: NavbarProps) {
           ))}
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="sm:hidden flex items-center justify-center w-10 h-10 hover:bg-red-600/10 rounded-sm transition-colors duration-200"
-          aria-label="Toggle menu"
-        >
-          {isOpen ? (
-            <X size={20} className="text-red-600" />
-          ) : (
-            <Menu size={20} className="text-red-600" />
-          )}
-        </button>
+        {/* Right Side: Cart Badge + Mobile Menu Button */}
+        <div className="flex items-center gap-4">
+          <CartBadge />
+          
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="sm:hidden flex items-center justify-center w-10 h-10 hover:bg-red-600/10 rounded-sm transition-colors duration-200"
+            aria-label="Toggle menu"
+          >
+            {isOpen ? (
+              <X size={20} className="text-red-600" />
+            ) : (
+              <Menu size={20} className="text-red-600" />
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Navigation Menu */}

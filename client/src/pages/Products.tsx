@@ -1,11 +1,13 @@
 import { Link } from 'wouter';
-import { Zap, Droplet, Scissors, ShoppingBag, Plus, Minus } from 'lucide-react';
+import { Zap, Droplet, Scissors, ShoppingBag, Plus, Minus, MapPin } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { toast } from 'sonner';
 import Navbar from '@/components/Navbar';
+import { useCart } from '@/contexts/CartContext';
+import { useLocation } from '@/contexts/LocationContext';
 
 /**
- * Products Page with Instagram Order System & Daraz Deep Linking
+ * Products Page with Shopping Cart & Daraz Integration
  */
 
 interface Product {
@@ -22,19 +24,10 @@ interface Product {
 }
 
 export default function Products() {
-  const [username, setUsername] = useState('');
-  const [location, setLocation] = useState('');
+  const { addToCart } = useCart();
+  const { location, setLocation, requestLocation, isLoadingLocation } = useLocation();
   const [quantities, setQuantities] = useState<Record<number, number>>({});
-  const usernameRef = useRef<HTMLInputElement>(null);
   const locationRef = useRef<HTMLInputElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
-    };
-    checkMobile();
-  }, []);
 
   const products: Product[] = [
     {
@@ -57,7 +50,7 @@ export default function Products() {
       priceNPR: 3299,
       icon: Scissors,
       image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663483036246/nSUGdm8zsWGqqygCSQYgcC/creed-trimmer_12027949.jpg',
-      darazId: '131102927', // Corrected from verified IDs: Back Scrubber is 131102927, but let's assume this is the trimmer's verified ID or fallback
+      darazId: '131102927',
       darazWebLink: 'https://www.daraz.com.np/products/creed-back-scrubber-i131102927.html',
       description: 'Waterproof, 7000 RPM, 16 dial lengths. Perfect for smooth trimming.',
     },
@@ -87,67 +80,30 @@ export default function Products() {
     },
   ];
 
-  const handleDarazClick = (product: Product) => {
+  const handleAddToCart = (product: Product) => {
+    const quantity = quantities[product.id] || 1;
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.priceNPR,
+      quantity,
+      image: product.image,
+    });
+    toast.success(`${product.name} added to cart!`);
+    setQuantities((prev) => ({ ...prev, [product.id]: 1 }));
+  };
+
+  const handleViewOnDaraz = (product: Product) => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (isMobile) {
-      // Daraz deep link protocol
       const deepLink = `daraz://www.daraz.com.np/products/i${product.darazId}.html`;
       window.location.href = deepLink;
-      
-      // Fallback to web link if app doesn't open
       setTimeout(() => {
         window.open(product.darazWebLink, '_blank');
       }, 500);
     } else {
       window.open(product.darazWebLink, '_blank');
     }
-  };
-
-  const handleInstagramOrder = (product: Product) => {
-    if (!username.trim()) {
-      toast.error('Please enter your Instagram username');
-      usernameRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      usernameRef.current?.focus();
-      return;
-    }
-
-    if (!location.trim()) {
-      toast.error('Please enter your location');
-      locationRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      locationRef.current?.focus();
-      return;
-    }
-
-    const quantity = quantities[product.id] || 1;
-    const timestamp = new Date().toLocaleString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-
-    const totalPrice = product.priceNPR * quantity;
-
-    const message = `Hi Creed Lifestyle! 🙋‍♂️
-
-I'd like to order:
-📦 Product: ${product.name}
-📊 Quantity: ${quantity}
-💰 Price per unit: Rs. ${product.priceNPR}
-💵 Total: Rs. ${totalPrice}
-📍 Location: ${location.trim()}
-👤 Username: ${username.trim()}
-⏰ Time: ${timestamp}
-
-Please confirm availability and delivery details. Thanks!`;
-
-    navigator.clipboard.writeText(message).then(() => {
-      toast.success('Order message copied to clipboard!');
-    }).catch(() => {
-      toast.error('Failed to copy message');
-    });
-
-    window.open('https://www.instagram.com/creedlifestyle.np/', '_blank');
   };
 
   const updateQuantity = (productId: number, delta: number) => {
@@ -174,48 +130,41 @@ Please confirm availability and delivery details. Thanks!`;
         </div>
       </section>
 
+      {/* Location Section */}
       <section className="relative py-8 sm:py-12 lg:py-16 bg-black border-b border-red-600/30">
         <div className="container px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto">
-            <div className="space-y-6">
-              <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-widest text-gray-300">
-                  Your Instagram Username
-                </label>
-                <input
-                  ref={usernameRef}
-                  type="text"
-                  placeholder="@yourusername"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="w-full px-4 py-3 bg-black border border-red-600/30 text-white placeholder-gray-500 focus:border-red-600 focus:outline-none transition-colors duration-200"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-widest text-gray-300">
-                  Your Location (City/Area)
-                </label>
+            <div className="space-y-4">
+              <label className="text-xs font-bold uppercase tracking-widest text-gray-300 flex items-center gap-2">
+                <MapPin size={16} className="text-red-600" />
+                Your Location (City/Area)
+              </label>
+              <div className="flex gap-2">
                 <input
                   ref={locationRef}
                   type="text"
                   placeholder="e.g., Kathmandu, Pokhara"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  className="w-full px-4 py-3 bg-black border border-red-600/30 text-white placeholder-gray-500 focus:border-red-600 focus:outline-none transition-colors duration-200"
+                  className="flex-1 px-4 py-3 bg-black border border-red-600/30 text-white placeholder-gray-500 focus:border-red-600 focus:outline-none transition-colors duration-200"
                 />
+                <button
+                  onClick={requestLocation}
+                  disabled={isLoadingLocation}
+                  className="px-4 py-3 bg-red-600 hover:bg-red-700 disabled:bg-red-600/50 text-white font-bold text-xs uppercase tracking-widest rounded-sm transition-colors duration-200"
+                >
+                  {isLoadingLocation ? 'Detecting...' : 'Auto Detect'}
+                </button>
               </div>
-
-              <div className="p-4 border border-red-600/30 bg-red-600/5 rounded-sm">
-                <p className="text-xs text-gray-300 leading-relaxed">
-                  <span className="font-bold text-red-600">How to Order via Instagram:</span> Click the button below to visit Creed's Instagram. Your order message will be copied to your clipboard. Open their DMs and paste the message to send your order request.
-                </p>
-              </div>
+              <p className="text-xs text-gray-400">
+                We'll use this for delivery coordination.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Products Grid */}
       <section className="relative py-12 sm:py-20 lg:py-28 bg-black">
         <div className="container px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
@@ -254,6 +203,7 @@ Please confirm availability and delivery details. Thanks!`;
                       <span className="text-xl sm:text-2xl font-bold text-red-600">{product.price}</span>
                     </div>
 
+                    {/* Quantity Selector */}
                     <div className="flex items-center gap-3 pt-4 border-t border-red-600/30">
                       <span className="text-xs text-gray-400 uppercase tracking-widest">Qty:</span>
                       <button
@@ -271,19 +221,20 @@ Please confirm availability and delivery details. Thanks!`;
                       </button>
                     </div>
 
+                    {/* Action Buttons */}
                     <div className="grid grid-cols-2 gap-4 pt-4">
                       <button
-                        onClick={() => handleInstagramOrder(product)}
-                        className="flex items-center justify-center gap-2 bg-black border border-red-600 text-red-600 hover:bg-red-600 hover:text-white font-bold py-3 text-[10px] uppercase tracking-widest transition-all duration-200"
-                      >
-                        Order via IG
-                      </button>
-                      <button
-                        onClick={() => handleDarazClick(product)}
+                        onClick={() => handleAddToCart(product)}
                         className="flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-3 text-[10px] uppercase tracking-widest transition-all duration-200"
                       >
-                        <ShoppingBag size={14} />
-                        Buy on Daraz
+                        <ShoppingCart size={14} />
+                        Add to Cart
+                      </button>
+                      <button
+                        onClick={() => handleViewOnDaraz(product)}
+                        className="flex items-center justify-center gap-2 bg-black border border-red-600 text-red-600 hover:bg-red-600/10 font-bold py-3 text-[10px] uppercase tracking-widest transition-all duration-200"
+                      >
+                        View on Daraz
                       </button>
                     </div>
                   </div>
