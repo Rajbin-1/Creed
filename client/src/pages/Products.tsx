@@ -38,10 +38,10 @@ export default function Products() {
       id: 1,
       name: 'Hair Volumizing Powder',
       feature: 'Instant Lift & All-Day Matte Hold',
-      price: 'Rs. 1,499',
-      priceNPR: 1499,
+      price: 'Rs. 1,299',
+      priceNPR: 1299,
       icon: Zap,
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663483036246/nSUGdm8zsWGqqygCSQYgcC/creed-powder_a39967b7.jpg',
+      image: '/products/hair-volumizing-powder.jpg',
       darazLink: 'https://s.daraz.com.np/s.Z00Jl',
       description: 'Instant volume without greasiness. Perfect for daily use and all-day hold.',
       stockId: 'hair-volumizing-powder',
@@ -50,10 +50,10 @@ export default function Products() {
       id: 2,
       name: 'Ball & Body Trimmer',
       feature: 'All-in-One Waterproof Grooming Tool',
-      price: 'Rs. 3,299',
-      priceNPR: 3299,
+      price: 'Rs. 2,499',
+      priceNPR: 2499,
       icon: Scissors,
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663483036246/nSUGdm8zsWGqqygCSQYgcC/creed-trimmer_12027949.jpg',
+      image: '/products/ball-body-trimmer.jpg',
       darazLink: 'https://s.daraz.com.np/s.Z00Jr',
       description: 'Waterproof, 7000 RPM, 16 dial lengths. Perfect for smooth trimming.',
       stockId: 'ball-body-trimmer',
@@ -62,10 +62,10 @@ export default function Products() {
       id: 3,
       name: 'Beard Groomer Pro',
       feature: 'Professional Precision Beard Styling',
-      price: 'Rs. 2,799',
-      priceNPR: 2799,
+      price: 'Rs. 1,899',
+      priceNPR: 1899,
       icon: Zap,
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663483036246/nSUGdm8zsWGqqygCSQYgcC/creed-trimmer_12027949.jpg',
+      image: '/products/beard-groomer-pro.jpg',
       darazLink: 'https://s.daraz.com.np/s.Z00JC',
       description: 'Professional-grade beard grooming with precision settings.',
       stockId: 'beard-groomer-pro',
@@ -74,10 +74,10 @@ export default function Products() {
       id: 4,
       name: 'Silicone Scalp Massager',
       feature: 'Soft food-grade silicone to boost circulation',
-      price: 'Rs. 1,050',
-      priceNPR: 1050,
+      price: 'Rs. 1,599',
+      priceNPR: 1599,
       icon: Droplet,
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663483036246/nSUGdm8zsWGqqygCSQYgcC/creed-massager_36df39c6.jpg',
+      image: '/products/silicone-scalp-massager.jpg',
       darazLink: 'https://s.daraz.com.np/s.Z00rY',
       description: 'Boosts blood circulation. Reduces hair fall and promotes scalp health.',
       stockId: 'silicone-scalp-massager',
@@ -86,10 +86,10 @@ export default function Products() {
       id: 5,
       name: 'Body Exfoliator',
       feature: 'Original Viscose Fiber Glove for deep skin renewal',
-      price: 'Rs. 1,099',
-      priceNPR: 1099,
+      price: 'Rs. 899',
+      priceNPR: 899,
       icon: Zap,
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663483036246/nSUGdm8zsWGqqygCSQYgcC/creed-exfoliator_c21280b1.png',
+      image: '/products/exfoliator.jpg',
       darazLink: 'https://s.daraz.com.np/s.Z00rf',
       description: 'Deep exfoliation for smoother skin. Unclogs pores and reduces ingrown hairs.',
       stockId: 'exfoliator',
@@ -98,10 +98,10 @@ export default function Products() {
       id: 6,
       name: 'Back Exfoliator',
       feature: 'Extended reach for full-body exfoliation',
-      price: 'Rs. 1,299',
-      priceNPR: 1299,
+      price: 'Rs. 999',
+      priceNPR: 999,
       icon: Droplet,
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663483036246/nSUGdm8zsWGqqygCSQYgcC/creed-exfoliator_c21280b1.png',
+      image: '/products/back-exfoliator.jpg',
       darazLink: 'https://s.daraz.com.np/s.Z00Ia',
       description: 'Reach your back with ease. Premium exfoliation for hard-to-reach areas.',
       stockId: 'back-exfoliator',
@@ -110,10 +110,10 @@ export default function Products() {
       id: 7,
       name: 'Power Trio Combo',
       feature: 'Ultimate Grooming Bundle - Save 25%',
-      price: 'Rs. 5,499',
-      priceNPR: 5499,
+      price: 'Rs. 4,299',
+      priceNPR: 4299,
       icon: Sparkles,
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663483036246/nSUGdm8zsWGqqygCSQYgcC/creed-powder_a39967b7.jpg',
+      image: '/products/power-trio.jpg',
       darazLink: 'https://s.daraz.com.np/s.Z00I4',
       description: 'Hair Powder + Trimmer + Scalp Massager. The complete grooming solution.',
       isCombo: true,
@@ -123,10 +123,10 @@ export default function Products() {
       id: 8,
       name: 'Scalp Massager & Body Exfoliator Combo',
       feature: 'Essential Duo - Save 15%',
-      price: 'Rs. 3,999',
-      priceNPR: 3999,
+      price: 'Rs. 3,299',
+      priceNPR: 3299,
       icon: Sparkles,
-      image: 'https://d2xsxph8kpxj0f.cloudfront.net/310519663483036246/nSUGdm8zsWGqqygCSQYgcC/creed-massager_36df39c6.jpg',
+      image: '/products/grooming-duo.jpg',
       darazLink: 'https://s.daraz.com.np/s.Z00rN',
       description: 'Scalp Massager + Body Exfoliator. Perfect starter combo for daily grooming.',
       isCombo: true,
@@ -269,80 +269,35 @@ export default function Products() {
                     <div className={`flex items-center justify-between pt-6 border-t ${
                       product.isCombo ? 'border-yellow-500/20' : 'border-red-600/20'
                     }`}>
-                      <span className={`text-xl sm:text-2xl font-bold ${
-                        product.isCombo ? 'text-yellow-500' : 'text-red-600'
-                      }`}>
-                        {product.price}
-                      </span>
-                    </div>
+                      <div className="space-y-1">
+                        <p className="text-xs text-gray-500 uppercase tracking-widest">Price</p>
+                        <p className={`text-xl sm:text-2xl font-bold ${
+                          product.isCombo ? 'text-yellow-500' : 'text-red-600'
+                        }`}>
+                          {product.price}
+                        </p>
+                      </div>
 
-                    {/* Order Buttons */}
-                    <div className="space-y-3 pt-4">
-                      <button
-                        onClick={() => handleAddToCart(product)}
-                        disabled={!inStock}
-                        className={`w-full inline-flex items-center justify-center gap-2 rounded-sm transition-all duration-300 text-xs font-bold uppercase tracking-wider active:scale-95 px-4 py-3 ${
-                          !inStock
-                            ? 'bg-gray-600 cursor-not-allowed opacity-50'
-                            : addedItem === product.id
-                            ? 'bg-green-600 hover:bg-green-700 text-white'
-                            : product.isCombo
-                            ? 'bg-yellow-500 hover:bg-yellow-600 text-black'
-                            : 'bg-red-600 hover:bg-red-700 text-white'
-                        }`}
-                      >
-                        <ShoppingCart size={14} />
-                        {addedItem === product.id ? 'Added!' : 'Add to Cart'}
-                      </button>
-
-                      <a
-                        href={product.darazLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`w-full inline-flex items-center justify-center gap-2 border rounded-sm transition-all duration-300 text-xs font-bold uppercase tracking-wider active:scale-95 px-4 py-3 ${
-                          product.isCombo
-                            ? 'border-yellow-500/50 text-yellow-500 hover:bg-yellow-500/10'
-                            : 'border-red-600/50 text-red-600 hover:bg-red-600/10'
-                        }`}
-                      >
-                        <ShoppingBag size={14} />
-                        Shop on Daraz
-                      </a>
+                      <div className="flex items-center gap-3">
+                        <a
+                          href={product.darazLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-widest transition-all duration-300 ${
+                            product.isCombo
+                              ? 'bg-yellow-500 text-black hover:bg-yellow-400'
+                              : 'bg-red-600 text-white hover:bg-red-500'
+                          }`}
+                        >
+                          <ShoppingBag size={14} />
+                          Shop on Daraz
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
               );
             })}
-          </div>
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="relative py-16 sm:py-20 lg:py-24 bg-black border-t border-red-600/30">
-        <div className="container px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl mx-auto text-center space-y-6">
-            {getTotalItems() > 0 ? (
-              <>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight tracking-tight">
-                  You have {getTotalItems()} item{getTotalItems() > 1 ? 's' : ''} in your cart
-                </h2>
-                <button
-                  onClick={() => navigate('/checkout')}
-                  className="inline-flex items-center justify-center bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-3 text-xs uppercase tracking-widest rounded-sm transition-colors duration-200 active:scale-95"
-                >
-                  Proceed to Checkout
-                </button>
-              </>
-            ) : (
-              <>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight tracking-tight">
-                  Ready to Elevate Your Grooming?
-                </h2>
-                <p className="text-xs sm:text-sm text-gray-300 uppercase tracking-wide">
-                  Add items to your cart and order via Instagram.
-                </p>
-              </>
-            )}
           </div>
         </div>
       </section>
