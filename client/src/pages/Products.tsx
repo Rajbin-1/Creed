@@ -1,5 +1,5 @@
 import { Link } from 'wouter';
-import { Zap, Droplet, Scissors, ShoppingBag, Plus, Minus, MapPin } from 'lucide-react';
+import { Zap, Droplet, Scissors, ShoppingCart, Plus, Minus, MapPin } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import { toast } from 'sonner';
 import Navbar from '@/components/Navbar';
