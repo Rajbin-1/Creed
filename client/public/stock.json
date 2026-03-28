@@ -1,35 +1,35 @@
 {
-  "lastUpdated": "2026-03-28T03:40:41Z",
+  "lastUpdated": "2026-03-28T06:19:39Z",
   "products": {
     "hair-volumizing-powder": {
       "id": "hair-volumizing-powder",
       "name": "Hair Volumizing Powder",
-      "stock": "in-stock",
-      "quantity": 10,
+      "stock": "out-of-stock",
+      "quantity": 0,
       "darazLink": "https://s.daraz.com.np/s.Z00Jl",
       "image": "/products/hair-volumizing-powder.jpg"
     },
     "ball-body-trimmer": {
       "id": "ball-body-trimmer",
       "name": "Ball & Body Trimmer",
-      "stock": "in-stock",
-      "quantity": 10,
+      "stock": "out-of-stock",
+      "quantity": 0,
       "darazLink": "https://s.daraz.com.np/s.Z00Jr",
       "image": "/products/ball-body-trimmer.jpg"
     },
     "beard-groomer-pro": {
       "id": "beard-groomer-pro",
       "name": "Beard Groomer Pro",
-      "stock": "in-stock",
-      "quantity": 10,
+      "stock": "out-of-stock",
+      "quantity": 0,
       "darazLink": "https://s.daraz.com.np/s.Z00JC",
       "image": "/products/beard-groomer-pro.jpg"
     },
     "silicone-scalp-massager": {
       "id": "silicone-scalp-massager",
       "name": "Silicone Scalp Massager",
-      "stock": "in-stock",
-      "quantity": 10,
+      "stock": "out-of-stock",
+      "quantity": 0,
       "darazLink": "https://s.daraz.com.np/s.Z00rY",
       "image": "/products/silicone-scalp-massager.jpg"
     },
