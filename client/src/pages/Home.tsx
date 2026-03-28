@@ -54,16 +54,20 @@ export default function Home() {
             ...particle,
             x: particle.x + particle.vx,
             y: particle.y + particle.vy,
-            vy: particle.vy + 0.1, // gravity
-            life: particle.life - 0.02,
+            vy: particle.vy + 0.05, // reduced gravity
+            life: particle.life - 0.01, // longer life
           }))
           .filter((particle) => particle.life > 0)
           .map((particle) => {
             // Draw particle
-            ctx.fillStyle = `rgba(255, 255, 255, ${particle.life * 0.6})`;
+            ctx.fillStyle = `rgba(255, 255, 255, ${particle.life * 0.8})`;
             ctx.beginPath();
             ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
             ctx.fill();
+            
+            // Powder Outline Feature: Subtle glow around particles
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = 'rgba(255, 255, 255, 0.5)';
             return particle;
           });
       });
@@ -83,26 +87,24 @@ export default function Home() {
     const handleTimeUpdate = () => {
       const currentTime = video.currentTime;
 
-      // Trigger mist and particles at 11 seconds, lasting until ~13.5 seconds (2.5 second duration)
-      if (currentTime >= 11 && currentTime < 13.5) {
-        const mistProgress = (currentTime - 11) / 2.5; // 0 to 1 over 2.5 seconds
+      // Trigger mist and particles at 11 seconds, lasting until ~14.5 seconds
+      if (currentTime >= 11 && currentTime < 14.5) {
+        const mistProgress = (currentTime - 11) / 3.5; 
 
         // Play sound effect once
         if (mistProgress < 0.05 && audioRef.current) {
           audioRef.current.currentTime = 0;
-          audioRef.current.play().catch(() => {
-            // Audio play might fail due to browser policies
-          });
+          audioRef.current.play().catch(() => {});
         }
 
-        // Generate particles
-        if (mistProgress < 0.8) {
-          const particleCount = Math.floor(Math.random() * 8 + 4);
+        // Generate particles (Comet Feature: Comet-like trails)
+        if (mistProgress < 0.9) {
+          const particleCount = Math.floor(Math.random() * 12 + 6);
           const canvas = particleCanvasRef.current;
           if (canvas) {
             for (let i = 0; i < particleCount; i++) {
               const angle = (Math.random() * Math.PI * 2);
-              const speed = Math.random() * 3 + 1;
+              const speed = Math.random() * 5 + 2;
               setParticles((prev) => [
                 ...prev,
                 {
@@ -110,9 +112,9 @@ export default function Home() {
                   x: canvas.width / 2,
                   y: canvas.height / 2,
                   vx: Math.cos(angle) * speed,
-                  vy: Math.sin(angle) * speed - 2,
-                  life: 1,
-                  size: Math.random() * 3 + 1,
+                  vy: Math.sin(angle) * speed - 1,
+                  life: 1.5,
+                  size: Math.random() * 4 + 1,
                 },
               ]);
             }
@@ -121,20 +123,23 @@ export default function Home() {
 
         // Layer 1: Fast spread from center
         if (mistLayer1Ref.current) {
-          const opacity1 = Math.sin(mistProgress * Math.PI) * 0.8;
-          const scale1 = 1 + mistProgress * 0.8;
-          const blur1 = 4 + mistProgress * 12;
+          const opacity1 = Math.sin(mistProgress * Math.PI) * 0.9;
+          const scale1 = 1 + mistProgress * 1.2;
+          const blur1 = 2 + mistProgress * 15;
           mistLayer1Ref.current.style.opacity = `${opacity1}`;
           mistLayer1Ref.current.style.transform = `scale(${scale1})`;
           mistLayer1Ref.current.style.filter = `blur(${blur1}px)`;
+          // Powder Outline Feature
+          mistLayer1Ref.current.style.border = `${2 * mistProgress}px solid rgba(255,255,255,${opacity1 * 0.5})`;
+          mistLayer1Ref.current.style.borderRadius = '50%';
         }
 
         // Layer 2: Medium spread with delay
         if (mistLayer2Ref.current) {
-          const delayedProgress = Math.max(0, mistProgress - 0.2);
-          const opacity2 = Math.sin(delayedProgress * Math.PI) * 0.6;
-          const scale2 = 1 + delayedProgress * 1.2;
-          const blur2 = 8 + delayedProgress * 16;
+          const delayedProgress = Math.max(0, mistProgress - 0.15);
+          const opacity2 = Math.sin(delayedProgress * Math.PI) * 0.7;
+          const scale2 = 1 + delayedProgress * 1.5;
+          const blur2 = 5 + delayedProgress * 20;
           mistLayer2Ref.current.style.opacity = `${opacity2}`;
           mistLayer2Ref.current.style.transform = `scale(${scale2})`;
           mistLayer2Ref.current.style.filter = `blur(${blur2}px)`;
@@ -142,31 +147,24 @@ export default function Home() {
 
         // Layer 3: Slow spread with more delay
         if (mistLayer3Ref.current) {
-          const delayedProgress3 = Math.max(0, mistProgress - 0.4);
-          const opacity3 = Math.sin(delayedProgress3 * Math.PI) * 0.5;
-          const scale3 = 1 + delayedProgress3 * 1.5;
-          const blur3 = 12 + delayedProgress3 * 20;
+          const delayedProgress3 = Math.max(0, mistProgress - 0.3);
+          const opacity3 = Math.sin(delayedProgress3 * Math.PI) * 0.6;
+          const scale3 = 1 + delayedProgress3 * 2.0;
+          const blur3 = 10 + delayedProgress3 * 25;
           mistLayer3Ref.current.style.opacity = `${opacity3}`;
           mistLayer3Ref.current.style.transform = `scale(${scale3})`;
           mistLayer3Ref.current.style.filter = `blur(${blur3}px)`;
         }
-      } else if (currentTime >= 13.5) {
+      } else if (currentTime >= 14.5 || currentTime < 11) {
         // Reset all layers
-        if (mistLayer1Ref.current) {
-          mistLayer1Ref.current.style.opacity = '0';
-          mistLayer1Ref.current.style.transform = 'scale(1)';
-          mistLayer1Ref.current.style.filter = 'blur(4px)';
-        }
-        if (mistLayer2Ref.current) {
-          mistLayer2Ref.current.style.opacity = '0';
-          mistLayer2Ref.current.style.transform = 'scale(1)';
-          mistLayer2Ref.current.style.filter = 'blur(8px)';
-        }
-        if (mistLayer3Ref.current) {
-          mistLayer3Ref.current.style.opacity = '0';
-          mistLayer3Ref.current.style.transform = 'scale(1)';
-          mistLayer3Ref.current.style.filter = 'blur(12px)';
-        }
+        [mistLayer1Ref, mistLayer2Ref, mistLayer3Ref].forEach(ref => {
+          if (ref.current) {
+            ref.current.style.opacity = '0';
+            ref.current.style.transform = 'scale(1)';
+            ref.current.style.filter = 'blur(4px)';
+            ref.current.style.border = 'none';
+          }
+        });
       }
     };
 
@@ -416,6 +414,5 @@ const powderAnimationStyle = `
   
   .powder-container {
     position: relative;
-    animation: powderGrain 3s ease-in-out;
   }
 `;
