@@ -1,4 +1,5 @@
 import { useLocation } from 'wouter';
+import { Instagram, Facebook } from 'lucide-react';
 
 export default function Footer() {
   const [, navigate] = useLocation();
@@ -23,6 +24,27 @@ export default function Footer() {
                 {item.label}
               </button>
             ))}
+          </div>
+
+          <div className="flex justify-center items-center gap-6 mt-6">
+            <a 
+              href="https://www.instagram.com/thecreedlifestyle" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-red-600 transition-colors duration-200"
+              aria-label="Instagram"
+            >
+              <Instagram size={20} />
+            </a>
+            <a 
+              href="https://www.facebook.com/share/1FHbzcrj9v/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-red-600 transition-colors duration-200"
+              aria-label="Facebook"
+            >
+              <Facebook size={20} />
+            </a>
           </div>
 
           <div className="border-t border-red-600/20 mt-8 pt-6 text-center">
