@@ -4,6 +4,7 @@ import { Zap, Droplet, Scissors, ShoppingBag, Instagram, Facebook, ShoppingCart,
 import { useState } from 'react';
 import { useStock } from '@/hooks/useStock';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 /**
  * Products Page with Shopping Cart, Stock Management & Daraz Integration
@@ -346,62 +347,7 @@ export default function Products() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-red-600/30 bg-black py-12 sm:py-16">
-        <div className="container px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12 mb-8 sm:mb-12">
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <img
-                  src="https://d2xsxph8kpxj0f.cloudfront.net/310519663483354275/bXM8D6oMMGwALEvguBMTpw/creed-logo_d41f092c.jpg"
-                  alt="Creed"
-                  className="w-6 h-6 rounded-full"
-                />
-                <h3 className="font-bold text-sm uppercase tracking-widest">Creed Lifestyle</h3>
-              </div>
-              <p className="text-gray-400 text-xs leading-relaxed">
-                Premium men's grooming for the modern man.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-bold mb-4 text-xs uppercase tracking-widest">Quick Links</h4>
-              <ul className="space-y-2 text-xs text-gray-400">
-                <li>
-                  <button onClick={() => navigate('/')} className="hover:text-red-600 transition-colors duration-300">
-                    Home
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => navigate('/about')} className="hover:text-red-600 transition-colors duration-300">
-                    About Us
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => navigate('/reviews')} className="hover:text-red-600 transition-colors duration-300">
-                    Reviews
-                  </button>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold mb-4 text-xs uppercase tracking-widest">Follow Us</h4>
-              <div className="flex gap-4">
-                <a href="https://www.instagram.com/thecreedlifestyle/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-600 transition-colors duration-300 text-xs">
-                  Instagram
-                </a>
-                <a href="https://www.facebook.com/share/1FHbzcrj9v/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-600 transition-colors duration-300 text-xs">
-                  Facebook
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-red-600/20 pt-8 sm:pt-12 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-4">
-            <p>&copy; 2026 Creed Lifestyle Nepal. All rights reserved.</p>
-            <p>Built for Men Who Move Different</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

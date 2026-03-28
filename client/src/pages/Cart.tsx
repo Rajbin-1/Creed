@@ -3,6 +3,7 @@ import { Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
 import { useState, useRef } from 'react';
 import { toast } from 'sonner';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 import { useCart } from '@/contexts/CartContext';
 import { useLocation } from '@/contexts/LocationContext';
 
@@ -60,16 +61,16 @@ Please confirm availability and delivery details. Thanks!`;
     navigator.clipboard.writeText(message).then(() => {
       toast.success('Order message copied to clipboard!');
       clearCart();
-      setTimeout(() => {
-        window.open('https://www.instagram.com/thecreedlifestyle?igsh=MWs1cmJiM21rMHNtaw==', '_blank');
-      }, 500);
+      const instagramUrl = encodeURIComponent('https://www.instagram.com/thecreedlifestyle?igsh=MWs1cmJiM21rMHNtaw==');
+      window.location.href = `/thank-you?type=instagram&url=${instagramUrl}`;
     }).catch(() => {
       toast.error('Failed to copy message');
     });
   };
 
   const handleViewAllOnDaraz = () => {
-    window.open('https://www.daraz.com.np/', '_blank');
+    const darazUrl = encodeURIComponent('https://www.daraz.com.np/');
+    window.location.href = `/thank-you?type=daraz&url=${darazUrl}`;
   };
 
   if (items.length === 0) {
@@ -104,24 +105,7 @@ Please confirm availability and delivery details. Thanks!`;
           </div>
         </section>
 
-        <footer className="bg-black border-t border-red-600/30 py-12">
-          <div className="container px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-              <div className="flex flex-col items-center md:items-start gap-4">
-                <Link href="/">
-                  <a className="flex items-center gap-3">
-                    <img
-                      src="https://d2xsxph8kpxj0f.cloudfront.net/310519663483354275/bXM8D6oMMGwALEvguBMTpw/creed-logo_d41f092c.jpg"
-                      alt="Creed Lifestyle Nepal Footer Logo"
-                      className="w-10 h-10 rounded-full"
-                    />
-                    <span className="font-bold text-lg tracking-widest uppercase">Creed</span>
-                  </a>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </footer>
+        <Footer />
       </div>
     );
   }
@@ -285,24 +269,7 @@ Please confirm availability and delivery details. Thanks!`;
         </div>
       </section>
 
-      <footer className="bg-black border-t border-red-600/30 py-12">
-        <div className="container px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-            <div className="flex flex-col items-center md:items-start gap-4">
-              <Link href="/">
-                <a className="flex items-center gap-3">
-                  <img
-                    src="https://d2xsxph8kpxj0f.cloudfront.net/310519663483354275/bXM8D6oMMGwALEvguBMTpw/creed-logo_d41f092c.jpg"
-                    alt="Creed Lifestyle Nepal Footer Logo"
-                    className="w-10 h-10 rounded-full"
-                  />
-                  <span className="font-bold text-lg tracking-widest uppercase">Creed</span>
-                </a>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { Link } from 'wouter';
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 export default function About() {
   return (
@@ -131,50 +132,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-red-600/30 bg-black py-8 sm:py-12 lg:py-16">
-        <div className="container px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
-            <div>
-              <div className="flex items-center gap-2 mb-3">
-                <img
-                  src="https://d2xsxph8kpxj0f.cloudfront.net/310519663483354275/bXM8D6oMMGwALEvguBMTpw/creed-logo_d41f092c.jpg"
-                  alt="Creed Lifestyle Nepal logo in footer"
-                  className="w-6 h-6 rounded-full"
-                />
-                <h3 className="font-bold text-sm uppercase tracking-widest">Creed Lifestyle</h3>
-              </div>
-              <p className="text-gray-400 text-xs leading-relaxed">
-                Premium men's grooming for the modern man.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-bold mb-3 text-xs uppercase tracking-widest">Quick Links</h4>
-              <ul className="space-y-1.5 text-xs text-gray-400">
-                <li><Link href="/"><a className="hover:text-red-600 transition-colors duration-300">Home</a></Link></li>
-                <li><Link href="/products"><a className="hover:text-red-600 transition-colors duration-300">Products</a></Link></li>
-                <li><Link href="/reviews"><a className="hover:text-red-600 transition-colors duration-300">Reviews</a></Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold mb-3 text-xs uppercase tracking-widest">Follow Us</h4>
-              <div className="flex gap-3">
-                <a href="https://www.instagram.com/creedlifestyle.np/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-600 transition-colors duration-300 text-xs">
-                  Instagram
-                </a>
-                <a href="https://www.tiktok.com/@creed.lifestyle" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-red-600 transition-colors duration-300 text-xs">
-                  TikTok
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-red-600/20 pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-4">
-            <p>&copy; 2026 Creed Lifestyle Nepal. All rights reserved.</p>
-            <p>Built for Men Who Move Different</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

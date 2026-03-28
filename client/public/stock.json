@@ -1,47 +1,53 @@
 {
-  "lastUpdated": "2026-03-27T22:30:00Z",
+  "lastUpdated": "2026-03-28T03:27:15Z",
   "products": {
     "hair-volumizing-powder": {
       "id": "hair-volumizing-powder",
       "name": "Hair Volumizing Powder",
       "stock": "in-stock",
       "quantity": 45,
-      "darazLink": "https://s.daraz.com.np/s.Z00Jl"
+      "darazLink": "https://s.daraz.com.np/s.Z00Jl",
+      "image": "https://wsrv.nl/?url=https://img.drz.lazcdn.com/static/np/p/fe454321895de0d2f6b9ed10243a87f2.png_720x720q80.png_.webp&w=800&output=webp"
     },
     "ball-body-trimmer": {
       "id": "ball-body-trimmer",
       "name": "Ball & Body Trimmer",
       "stock": "in-stock",
       "quantity": 32,
-      "darazLink": "https://s.daraz.com.np/s.Z00Jr"
+      "darazLink": "https://s.daraz.com.np/s.Z00Jr",
+      "image": "https://wsrv.nl/?url=https://img.drz.lazcdn.com/g/kf/S468d3ad70e654e009b173c95be02086f7.png_720x720q80.png_.webp&w=800&output=webp"
     },
     "beard-groomer-pro": {
       "id": "beard-groomer-pro",
       "name": "Beard Groomer Pro",
       "stock": "in-stock",
       "quantity": 28,
-      "darazLink": "https://s.daraz.com.np/s.Z00JC"
+      "darazLink": "https://s.daraz.com.np/s.Z00JC",
+      "image": "https://wsrv.nl/?url=https://img.drz.lazcdn.com/static/np/p/718b6ea55485c716fbe6971e4f5c68cb.jpg_720x720q80.jpg_.webp&w=800&output=webp"
     },
     "silicone-scalp-massager": {
       "id": "silicone-scalp-massager",
       "name": "Silicone Scalp Massager",
       "stock": "in-stock",
       "quantity": 50,
-      "darazLink": "https://s.daraz.com.np/s.Z00rY"
+      "darazLink": "https://s.daraz.com.np/s.Z00rY",
+      "image": "https://wsrv.nl/?url=https://img.drz.lazcdn.com/static/np/p/6963d75f7f4607d3f0aa33e04ce48a62.jpg_720x720q80.jpg_.webp&w=800&output=webp"
     },
     "exfoliator": {
       "id": "exfoliator",
       "name": "Body Exfoliator",
       "stock": "out-of-stock",
       "quantity": 0,
-      "darazLink": "https://s.daraz.com.np/s.Z00rf"
+      "darazLink": "https://s.daraz.com.np/s.Z00rf",
+      "image": "https://wsrv.nl/?url=https://img.drz.lazcdn.com/static/np/p/d6b8b91ea02b3b45820d04875e82fd03.png_720x720q80.png_.webp&w=800&output=webp"
     },
     "back-exfoliator": {
       "id": "back-exfoliator",
       "name": "Back Exfoliator",
       "stock": "out-of-stock",
       "quantity": 0,
-      "darazLink": "https://s.daraz.com.np/s.Z00Ia"
+      "darazLink": "https://s.daraz.com.np/s.Z00Ia",
+      "image": "https://wsrv.nl/?url=https://img.drz.lazcdn.com/static/np/p/831b4c8f7620c20a0cedb48a072953ac.jpg_720x720q80.jpg_.webp&w=800&output=webp"
     },
     "power-trio": {
       "id": "power-trio",
@@ -49,7 +55,8 @@
       "stock": "out-of-stock",
       "quantity": 0,
       "isCombo": true,
-      "darazLink": "https://s.daraz.com.np/s.Z00I4"
+      "darazLink": "https://s.daraz.com.np/s.Z00I4",
+      "image": "https://wsrv.nl/?url=https://img.drz.lazcdn.com/static/np/p/395fee3d80ee531bb18c349178b5a5ed.jpg_720x720q80.jpg_.webp&w=800&output=webp"
     },
     "grooming-duo": {
       "id": "grooming-duo",
@@ -57,7 +64,8 @@
       "stock": "out-of-stock",
       "quantity": 0,
       "isCombo": true,
-      "darazLink": "https://s.daraz.com.np/s.Z00rN"
+      "darazLink": "https://s.daraz.com.np/s.Z00rN",
+      "image": "https://wsrv.nl/?url=https://img.drz.lazcdn.com/static/np/p/1613baab276e631cf43810507dcc3efa.jpg_720x720q80.jpg_.webp&w=800&output=webp"
     }
   }
 }
